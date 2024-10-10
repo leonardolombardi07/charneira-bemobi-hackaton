@@ -1,0 +1,41 @@
+{
+  "name": "charneira-hackaton-bemobi",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"firebase emulators:start\" \"next dev\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@google/generative-ai": "^0.21.0",
+    "@mui/icons-material": "^5.15.6",
+    "@mui/material": "^5.15.6",
+    "@mui/material-nextjs": "^5.15.6",
+    "@uidotdev/usehooks": "^2.4.1",
+    "axios": "^1.6.7",
+    "firebase": "^10.7.2",
+    "json-edit-react": "^1.15.4",
+    "next": "14.1.0",
+    "nuqs": "^1.16.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-firebase-hooks": "^5.1.1",
+    "react-markdown": "^9.0.1",
+    "react-share": "^5.0.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "concurrently": "^8.2.2",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "typescript": "^5"
+  }
+}

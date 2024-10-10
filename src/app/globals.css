@@ -1,0 +1,8 @@
+html, body {
+  scroll-behavior: smooth;
+
+    /* Leo: this should be equal to app header height  */
+  /* TODO tried to put this colocated to the header, but couldn't make it work
+  Used a bit more than the height to put more breathing room when scrolling */
+  scroll-padding-top: 80px; 
+}
