@@ -11,14 +11,18 @@ import InputAdornment from "@mui/material/InputAdornment";
 import {
   useConversationParts,
   createConversationParts,
+  updateConversation,
+  useConversation,
 } from "@/modules/api/client";
 import { ConversationsCol } from "@/modules/api/types";
 import { useUser } from "@/app/_layout/UserProvider";
-import GoogleGenAI from "@/modules/google-generative-ai";
+import GoogleGenAI, { Content } from "@/modules/google-generative-ai";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Header from "./_page/Header";
+import { HEADER_HEIGHT } from "../../_layout/Header";
+import { BOTTOM_TAB_MENU_HEIGHT } from "../../layout";
 
 interface PageProps {
   params: {
@@ -38,12 +42,15 @@ export default function Page({ params }: PageProps) {
 
   // TODO: handle loading and error states
   const [data = [], isLoading, error] = useConversationParts(conversationId);
+  const [conversation, isLoadingConversation, conversationError] =
+    useConversation(conversationId);
+
   const [temporaryData, setTemporaryData] = React.useState<
     ConversationsCol.PartsSubCol.Doc[]
   >([]);
 
   const [sendLoadingStatus, setSendLoadingStatus] = React.useState<
-    "idle" | "sending_user_message" | "loading_ai_response"
+    "idle" | "sending_user_message" | "loading_ai_response" | "loading_ai_title"
   >("idle");
   const [sendError, setSendError] = React.useState<string | null>(null);
 
@@ -63,9 +70,12 @@ export default function Page({ params }: PageProps) {
 
     setSendError(null);
 
+    // This is bad code. We can't access temporaryData state inside this function as it is not updated yet. So we create a temporary variable to store the data.
+    let tempData: ConversationsCol.PartsSubCol.Doc[] = data;
+
     try {
       setSendLoadingStatus("sending_user_message");
-      setTemporaryData(data);
+      setTemporaryData(tempData);
 
       const userPart: ConversationsCol.PartsSubCol.Doc = {
         id: "user-temporary",
@@ -82,14 +92,16 @@ export default function Page({ params }: PageProps) {
         type: "comment",
         body: message,
       };
-      setTemporaryData((prev) => [...prev, userPart]);
+
+      tempData = [...tempData, userPart];
+      setTemporaryData(tempData);
 
       setSendLoadingStatus("loading_ai_response");
       const model = GoogleGenAI.getGenerativeModel({
         model: "gemini-1.5-flash",
       });
       const chat = model.startChat({
-        history: temporaryData
+        history: tempData
           .filter((p) => Boolean(p.body))
           .map((p) => ({
             role: authorTypeToGoogleGenAIRole(p.author.type),
@@ -112,7 +124,8 @@ export default function Page({ params }: PageProps) {
         type: "comment",
         body: "",
       };
-      setTemporaryData((prev) => [...prev, aiPart]);
+      tempData = [...tempData, aiPart];
+      setTemporaryData(tempData);
 
       const result = await chat.sendMessageStream(message);
       for await (const chunk of result.stream) {
@@ -123,10 +136,38 @@ export default function Page({ params }: PageProps) {
           notifiedAt: Date.now(),
           body: (aiPart.body || "") + chunk.text(),
         };
-        setTemporaryData((prev) => [...prev.slice(0, prev.length - 1), aiPart]);
+        tempData = [...tempData.slice(0, tempData.length - 1), aiPart];
+        setTemporaryData(tempData);
       }
 
       await createConversationParts(conversationId, [userPart, aiPart]);
+
+      if (conversation?.title) {
+        // No need to await this
+        updateConversation(conversationId, { lastPart: aiPart });
+        return;
+      }
+
+      setSendLoadingStatus("loading_ai_title");
+      const askForTitlePrompt = `Based on the parts before this conversation, ANSWER with ONE good title with maximum of 10 words. But really try to give a title - like, if its a vague or strange conversation, try to give a title that captures that. Don't answer with things like "Please provide me more context"`;
+      const updatedChat = model.startChat({
+        history: [
+          ...tempData
+            .filter((p) => Boolean(p.body))
+            .map((p) => ({
+              role: authorTypeToGoogleGenAIRole(p.author.type),
+              parts: [{ text: p.body || "" }],
+            })),
+          { role: "model", parts: [{ text: askForTitlePrompt }] },
+        ],
+      });
+      const titleResult = await updatedChat.sendMessage("");
+      const title = titleResult.response.text();
+      const parsedTitle = title.trim() === "No title" ? "" : title;
+      updateConversation(conversationId, {
+        title: parsedTitle,
+        lastPart: aiPart,
+      });
     } catch (error: any) {
       setSendError(error?.message || "Erro ao enviar mensagem");
     } finally {
@@ -148,22 +189,24 @@ export default function Page({ params }: PageProps) {
   return (
     <Box
       sx={{
-        height: 400,
+        height: `calc(100vh - ${HEADER_HEIGHT}px - ${BOTTOM_TAB_MENU_HEIGHT}px)`,
         display: "flex",
         flexDirection: "column",
         position: "relative",
       }}
     >
-      <Header conversationId={conversationId} />
+      <Header
+        conversation={conversation}
+        isLoading={isLoadingConversation}
+        error={conversationError}
+      />
 
       <Box
         sx={{
           flex: 1,
           overflowY: "auto",
           p: 2,
-          marginBottom: "70px",
           display: "flex",
-
           // Make sure the scroll always starts at the bottom
           flexDirection: "column-reverse",
         }}
@@ -179,27 +222,22 @@ export default function Page({ params }: PageProps) {
         ))}
 
         <Box sx={{ flexGrow: 1 }} />
-
-        {sendError && (
-          <Alert severity="error" sx={{ mt: 2 }}>
-            <AlertTitle>Erro</AlertTitle>
-            {sendError}
-          </Alert>
-        )}
-
-        <SendMessage
-          onSend={onSend}
-          isLoading={sendLoadingStatus !== "idle"}
-          sx={{
-            px: 1,
-            height: "70px",
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}
-        />
       </Box>
+
+      {sendError && (
+        <Alert severity="error" sx={{ mt: 2 }}>
+          <AlertTitle>Erro</AlertTitle>
+          {sendError}
+        </Alert>
+      )}
+
+      <SendMessage
+        onSend={onSend}
+        isLoading={sendLoadingStatus !== "idle"}
+        sx={{
+          px: 1,
+        }}
+      />
     </Box>
   );
 }
@@ -231,7 +269,7 @@ function SendMessage({
         ...sx,
       }}
     >
-      <FormControl sx={{ m: 1, width: "100%" }} variant="filled">
+      <FormControl sx={{ m: 4, width: "100%" }} variant="filled">
         <FilledInput
           autoFocus
           value={message}
@@ -270,7 +308,7 @@ function SendMessage({
   );
 }
 
-type GoogleGenAIRole = "user" | "model" | "function" | "system";
+type GoogleGenAIRole = "user" | "model";
 
 function authorTypeToGoogleGenAIRole(
   type: ConversationsCol.PartsSubCol.ConversationPartAuthor["type"]
@@ -281,6 +319,10 @@ function authorTypeToGoogleGenAIRole(
     case "bot":
       return "model";
     default:
-      return "system";
+      if (process.env.NODE_ENV === "development") {
+        throw new Error(`Invalid author type: ${type}`);
+      }
+
+      return "model";
   }
 }

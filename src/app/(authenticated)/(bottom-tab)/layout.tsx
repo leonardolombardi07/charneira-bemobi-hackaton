@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Header from "./_layout/Header";
 
-const BOTTOM_TAB_MENU_HEIGHT = 56;
+export const BOTTOM_TAB_MENU_HEIGHT = 56;
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

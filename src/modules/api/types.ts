@@ -20,7 +20,7 @@ export namespace ConversationsCol {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     membersIds: UserId[];
-    lastPart: PartsSubCol.Doc;
+    lastPart: PartsSubCol.Doc | null;
   }
 
   export namespace PartsSubCol {

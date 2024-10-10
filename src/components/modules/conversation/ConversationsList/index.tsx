@@ -41,15 +41,19 @@ interface ConversationListItemProps {
 
 function ConversationListItem({ conversation }: ConversationListItemProps) {
   const { id, title, lastPart } = conversation;
+
   return (
     <React.Fragment>
       <ListItemButton
         alignItems="flex-start"
         LinkComponent={Link}
-        href={`/data/list/${id}`}
+        href={`/conversations/${id}`}
       >
         <ListItemAvatar>
-          <Avatar alt={lastPart.author.name} src={lastPart.author.photoURL} />
+          <Avatar
+            alt={lastPart?.author?.name}
+            src={lastPart?.author?.photoURL}
+          />
         </ListItemAvatar>
         <ListItemText
           primary={title}
@@ -58,13 +62,25 @@ function ConversationListItem({ conversation }: ConversationListItemProps) {
               <Typography
                 component="span"
                 variant="body2"
-                sx={{ color: "text.primary", display: "inline" }}
+                sx={{
+                  color: "text.primary",
+                  display: "inline",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               >
-                {lastPart.author.name}
+                {lastPart?.author?.name || "0 mensagens"}
               </Typography>
-              {` — ${lastPart.body}`}
+
+              {lastPart?.body && ` — ${lastPart?.body}`}
             </React.Fragment>
           }
+          sx={{
+            maxHeight: 100,
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          }}
         />
       </ListItemButton>
 
@@ -77,9 +93,9 @@ function EmptyList() {
   return (
     <Typography
       variant="body1"
-      sx={{ textAlign: "center", mt: 5, fontSize: "1.5rem" }}
+      sx={{ textAlign: "center", mt: 5, fontSize: "1rem" }}
     >
-      Nenhuma mensagem encontrada.
+      Você ainda não possui nenhuma conversa.
     </Typography>
   );
 }

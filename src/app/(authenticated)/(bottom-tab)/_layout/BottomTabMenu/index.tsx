@@ -11,7 +11,7 @@ import Paper from "@mui/material/Paper";
 import HomeIcon from "@mui/icons-material/Home";
 
 const PATHNAME = {
-  HOME: "conversations/home",
+  HOME: "conversations",
   PROFILE: "profile",
 } as const;
 

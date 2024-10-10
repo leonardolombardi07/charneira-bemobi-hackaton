@@ -6,19 +6,26 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import GoBackIcon from "@mui/icons-material/ArrowBackIos";
-import { useConversation } from "@/modules/api/client";
 import { useRouter } from "next/navigation";
+import { ConversationsCol } from "@/modules/api";
+import { FirebaseError } from "firebase/app";
 
 interface HeaderProps {
-  conversationId: string;
+  conversation: ConversationsCol.Doc | undefined;
+  isLoading: boolean;
+  error: FirebaseError | undefined;
   sx?: AppBarProps["sx"];
 }
 
 const HEADER_HEIGHT = 64;
 
-export default function Header({ conversationId, sx }: HeaderProps) {
+export default function Header({
+  isLoading,
+  error,
+  conversation,
+  sx,
+}: HeaderProps) {
   // TODO: handle loading and error states
-  const [conversation] = useConversation(conversationId);
   const router = useRouter();
   return (
     <AppBar
@@ -41,6 +48,7 @@ export default function Header({ conversationId, sx }: HeaderProps) {
           edge="start"
           color="inherit"
           aria-label="back"
+          sx={{ ml: 1 }}
         >
           <GoBackIcon />
         </IconButton>

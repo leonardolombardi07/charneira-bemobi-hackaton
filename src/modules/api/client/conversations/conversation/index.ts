@@ -9,9 +9,9 @@ function useConversation(id: string) {
   return useDocumentData(doc(conversationsCol, id));
 }
 
-async function createConversation(data: Partial<ConversationsCol.Doc>) {
+function createConversation(data: Partial<ConversationsCol.Doc>) {
   const cDoc = doc(conversationsCol);
-  await setDoc(
+  setDoc(
     cDoc,
     {
       id: cDoc.id,
@@ -21,7 +21,23 @@ async function createConversation(data: Partial<ConversationsCol.Doc>) {
     },
     { merge: true }
   );
+
+  return {
+    id: cDoc.id,
+  };
 }
 
-export { useConversation, createConversation };
+function updateConversation(id: string, data: Partial<ConversationsCol.Doc>) {
+  const cDoc = doc(conversationsCol, id);
+  setDoc(
+    cDoc,
+    {
+      updatedAt: Date.now(),
+      ...data,
+    },
+    { merge: true }
+  );
+}
+
+export { useConversation, createConversation, updateConversation };
 export * from "./parts";

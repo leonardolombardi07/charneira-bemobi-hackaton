@@ -1,5 +1,77 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import Box from "@mui/material/Box";
+import ConversationsList from "@/components/modules/conversation/ConversationsList";
+import Button from "@mui/material/Button";
+import SendMessageIcon from "@mui/icons-material/Send";
+import React from "react";
+import { createConversation, useUserConversations } from "@/modules/api/client";
+import { useUser } from "@/app/_layout/UserProvider";
+import { useRouter } from "next/navigation";
+import GoogleGenAI from "@/modules/google-generative-ai";
+
+const BUTTON_DISTANCE_TO_BOTTOM = 50;
 
 export default function Page() {
-  return redirect("/conversations/home");
+  const { user } = useUser();
+  // TODO: handle loading and error states
+  const [data = [], isLoading, error] = useUserConversations(user.uid);
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        flex: 1,
+        position: "relative",
+        paddingBottom: `${BUTTON_DISTANCE_TO_BOTTOM * 2}px`,
+        pt: 1,
+      }}
+    >
+      <ConversationsList data={data} />
+
+      <Box sx={{ flexGrow: 1 }} />
+
+      <CreateConversationButton />
+    </Box>
+  );
+}
+
+function CreateConversationButton() {
+  const { user } = useUser();
+  const router = useRouter();
+
+  function onClick() {
+    const { id } = createConversation({
+      title: "",
+      lastPart: null,
+      membersIds: [user.uid],
+    });
+    router.push(`/conversations/${id}`);
+  }
+
+  return (
+    <Button
+      onClick={onClick}
+      variant="contained"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+        width: "100%",
+        maxWidth: 400,
+        mb: 3,
+        position: "fixed",
+        bottom: BUTTON_DISTANCE_TO_BOTTOM,
+      }}
+    >
+      Iniciar nova conversa
+      <SendMessageIcon />
+    </Button>
+  );
+}
+
+function useUpdateConversationTitles() {
+  React.useEffect(() => {}, []);
 }

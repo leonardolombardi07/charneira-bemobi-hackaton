@@ -40,8 +40,7 @@ function CommentConversationPart({ part }: ConversationPartProps) {
   // TODO: parsing
   return (
     <ConversationPartContainer part={part}>
-      <Typography variant="body1">{body}</Typography>
-      {/* <Markdown>{body}</Markdown> */}
+      <Markdown>{body}</Markdown>
     </ConversationPartContainer>
   );
 }
@@ -77,6 +76,8 @@ function ConversationPartContainer({
     }
   }
 
+  const float = author.type === "user" ? "right" : "left";
+
   return (
     <Box
       sx={{
@@ -93,7 +94,7 @@ function ConversationPartContainer({
       <Box
         sx={{
           textAlign: "left",
-          float: author.type === "user" ? "right" : "left",
+          float,
           paddingLeft: "48px",
           width: "calc(100% - 48px)",
           mb: 1,
@@ -102,10 +103,13 @@ function ConversationPartContainer({
         <Box
           sx={{
             display: "inline-block",
-            float: author.type === "user" ? "right" : "left",
+            float,
             borderRadius: 5,
             p: 3,
-            maxWidth: "75%",
+            maxWidth: {
+              xs: "85%",
+              sm: "75%",
+            },
             ...sxForAuthorType(author.type),
           }}
         >
