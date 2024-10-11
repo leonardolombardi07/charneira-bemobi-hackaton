@@ -8,8 +8,9 @@ import React from "react";
 import { createConversation, useUserConversations } from "@/modules/api/client";
 import { useUser } from "@/app/_layout/UserProvider";
 import { useRouter } from "next/navigation";
+import Container from "@mui/material/Container";
 
-const CREATE_PADDING_BOTTOM = 50;
+const CREATE_BUTTON_PADDING_BOTTOM = 50;
 
 export default function Page() {
   const { user } = useUser();
@@ -17,14 +18,14 @@ export default function Page() {
   const [data = [], isLoading, error] = useUserConversations(user.uid);
 
   return (
-    <Box
+    <Container
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         flex: 1,
         position: "relative",
-        paddingBottom: `${CREATE_PADDING_BOTTOM * 2}px`,
+        paddingBottom: `${CREATE_BUTTON_PADDING_BOTTOM * 2}px`,
         pt: 1,
       }}
     >
@@ -33,7 +34,7 @@ export default function Page() {
       <Box sx={{ flexGrow: 1 }} />
 
       <CreateConversationButton />
-    </Box>
+    </Container>
   );
 }
 
@@ -65,7 +66,7 @@ function CreateConversationButton() {
         },
         mb: 3,
         position: "fixed",
-        bottom: CREATE_PADDING_BOTTOM,
+        bottom: CREATE_BUTTON_PADDING_BOTTOM,
       }}
     >
       Iniciar nova conversa

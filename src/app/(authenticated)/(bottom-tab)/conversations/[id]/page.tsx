@@ -21,8 +21,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Header from "./_page/Header";
-import { HEADER_HEIGHT } from "../../_layout/Header";
-import { BOTTOM_TAB_MENU_HEIGHT } from "../../layout";
+import { BOTTOM_TAB_MENU_HEIGHT, HEADER_HEIGHT } from "../../_layout/constants";
 
 interface PageProps {
   params: {
@@ -193,6 +192,7 @@ export default function Page({ params }: PageProps) {
         display: "flex",
         flexDirection: "column",
         position: "relative",
+        overflow: "hidden",
       }}
     >
       <Header

@@ -9,19 +9,17 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
-export const HEADER_HEIGHT = 64;
-
 interface HeaderProps {
-  sx: AppBarProps["sx"];
+  sx?: AppBarProps["sx"];
 }
 
-export default function Header() {
+export default function Header({ sx }: HeaderProps) {
   return (
     <AppBar
       component="nav"
       position="fixed"
       sx={{
-        height: HEADER_HEIGHT,
+        ...sx,
       }}
     >
       <Toolbar

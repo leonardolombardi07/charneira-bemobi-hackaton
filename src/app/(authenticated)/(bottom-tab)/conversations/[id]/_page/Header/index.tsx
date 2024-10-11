@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { ConversationsCol } from "@/modules/api";
 import { FirebaseError } from "firebase/app";
 import { containText } from "@/modules/inlineStyles";
+import { HEADER_HEIGHT } from "@/app/(authenticated)/(bottom-tab)/_layout/constants";
 
 interface HeaderProps {
   conversation: ConversationsCol.Doc | undefined;
@@ -17,8 +18,6 @@ interface HeaderProps {
   error: FirebaseError | undefined;
   sx?: AppBarProps["sx"];
 }
-
-const HEADER_HEIGHT = 64;
 
 export default function Header({
   isLoading,
