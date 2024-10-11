@@ -9,6 +9,7 @@ import GoBackIcon from "@mui/icons-material/ArrowBackIos";
 import { useRouter } from "next/navigation";
 import { ConversationsCol } from "@/modules/api";
 import { FirebaseError } from "firebase/app";
+import { containText } from "@/modules/inlineStyles";
 
 interface HeaderProps {
   conversation: ConversationsCol.Doc | undefined;
@@ -52,7 +53,14 @@ export default function Header({
         >
           <GoBackIcon />
         </IconButton>
-        <Typography variant="h6">{conversation?.title}</Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            ...containText({ lines: 1 }),
+          }}
+        >
+          {conversation?.title}
+        </Typography>
       </Toolbar>
     </AppBar>
   );

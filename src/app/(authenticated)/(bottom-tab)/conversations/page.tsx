@@ -8,9 +8,8 @@ import React from "react";
 import { createConversation, useUserConversations } from "@/modules/api/client";
 import { useUser } from "@/app/_layout/UserProvider";
 import { useRouter } from "next/navigation";
-import GoogleGenAI from "@/modules/google-generative-ai";
 
-const BUTTON_DISTANCE_TO_BOTTOM = 50;
+const CREATE_PADDING_BOTTOM = 50;
 
 export default function Page() {
   const { user } = useUser();
@@ -25,7 +24,7 @@ export default function Page() {
         alignItems: "center",
         flex: 1,
         position: "relative",
-        paddingBottom: `${BUTTON_DISTANCE_TO_BOTTOM * 2}px`,
+        paddingBottom: `${CREATE_PADDING_BOTTOM * 2}px`,
         pt: 1,
       }}
     >
@@ -60,18 +59,17 @@ function CreateConversationButton() {
         alignItems: "center",
         gap: 1,
         width: "100%",
-        maxWidth: 400,
+        maxWidth: {
+          xs: "90%",
+          sm: 400,
+        },
         mb: 3,
         position: "fixed",
-        bottom: BUTTON_DISTANCE_TO_BOTTOM,
+        bottom: CREATE_PADDING_BOTTOM,
       }}
     >
       Iniciar nova conversa
       <SendMessageIcon />
     </Button>
   );
-}
-
-function useUpdateConversationTitles() {
-  React.useEffect(() => {}, []);
 }

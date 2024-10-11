@@ -1,12 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import UserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import Typography from "@mui/material/Typography";
 import { sendPasswordResetEmail } from "@/modules/api/client";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -14,6 +12,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Copyright from "../_components/Copyright";
 import AuthLink from "../_components/AuthLink";
+import LogoWithTitle from "../_components/LogoWithTitle";
 
 function useForm() {
   const emailRef = React.useRef<HTMLInputElement>(null);
@@ -72,9 +71,7 @@ export default function Page() {
 
   return (
     <React.Fragment>
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <UserOutlinedIcon />
-      </Avatar>
+      <LogoWithTitle sx={{ mb: 1 }} />
 
       <Typography component="h1" variant="h5">
         Esqueceu sua senha?

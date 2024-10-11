@@ -53,7 +53,7 @@ export default function Header() {
               ml: "3px",
             }}
           >
-            {APP_NAME}™
+            {APP_NAME}
           </Typography>
         </Box>
       </Toolbar>

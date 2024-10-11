@@ -235,7 +235,10 @@ export default function Page({ params }: PageProps) {
         onSend={onSend}
         isLoading={sendLoadingStatus !== "idle"}
         sx={{
-          px: 1,
+          px: {
+            xs: 0,
+            sm: 1,
+          },
         }}
       />
     </Box>
@@ -269,7 +272,20 @@ function SendMessage({
         ...sx,
       }}
     >
-      <FormControl sx={{ m: 4, width: "100%" }} variant="filled">
+      <FormControl
+        sx={{
+          mx: {
+            xs: 2,
+            sm: 4,
+          },
+          my: {
+            xs: 1,
+            sm: 2,
+          },
+          width: "100%",
+        }}
+        variant="filled"
+      >
         <FilledInput
           autoFocus
           value={message}

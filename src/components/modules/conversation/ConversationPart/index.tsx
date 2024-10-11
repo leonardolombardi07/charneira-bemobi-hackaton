@@ -1,6 +1,7 @@
 import { ConversationsCol } from "@/modules/api";
 import Box, { BoxProps } from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 import Markdown from "react-markdown";
 
 interface ConversationPartProps {
@@ -37,7 +38,6 @@ function QuickReplyConversationPart({ part, onReply }: ConversationPartProps) {
 function CommentConversationPart({ part }: ConversationPartProps) {
   const { body } = part;
 
-  // TODO: parsing
   return (
     <ConversationPartContainer part={part}>
       <Markdown>{body}</Markdown>
@@ -78,6 +78,11 @@ function ConversationPartContainer({
 
   const float = author.type === "user" ? "right" : "left";
 
+  const paddingLeft = {
+    xs: 0,
+    sm: 48,
+  };
+
   return (
     <Box
       sx={{
@@ -95,27 +100,66 @@ function ConversationPartContainer({
         sx={{
           textAlign: "left",
           float,
-          paddingLeft: "48px",
-          width: "calc(100% - 48px)",
+          paddingLeft: {
+            xs: `${paddingLeft.xs}px`,
+            sm: `${paddingLeft.sm}px`,
+          },
+          width: {
+            xs: `calc(100% - ${paddingLeft.xs}px)`,
+            sm: `calc(100% - ${paddingLeft.sm}px)`,
+          },
           mb: 1,
         }}
       >
-        <Box
-          sx={{
-            display: "inline-block",
-            float,
-            borderRadius: 5,
-            p: 3,
-            maxWidth: {
-              xs: "85%",
-              sm: "75%",
-            },
-            ...sxForAuthorType(author.type),
+        <Tooltip
+          title={humanReadableDate(part.createdAt)}
+          placement="top-start"
+          PopperProps={{
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [-30, -30],
+                },
+              },
+            ],
           }}
         >
-          {children}
-        </Box>
+          <Box
+            sx={{
+              display: "inline-block",
+              float,
+              borderRadius: 5,
+              p: 3,
+              maxWidth: {
+                xs: "90%",
+                sm: "75%",
+              },
+              ...sxForAuthorType(author.type),
+            }}
+          >
+            {children}
+          </Box>
+        </Tooltip>
       </Box>
     </Box>
   );
+}
+
+function humanReadableDate(timestamp: number) {
+  // TODO: eventually abstract this to a module
+
+  function getLocale() {
+    return navigator.languages && navigator.languages.length
+      ? navigator.languages[0]
+      : navigator.language;
+  }
+
+  return new Intl.DateTimeFormat(getLocale(), {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  }).format(timestamp);
 }

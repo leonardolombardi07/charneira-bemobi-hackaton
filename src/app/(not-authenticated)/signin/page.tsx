@@ -1,12 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
@@ -15,6 +13,7 @@ import { useSignInWithForm } from "./_page/hooks";
 import PasswordTextField from "@/components/inputs/PasswordTextField";
 import AuthLink from "../_components/AuthLink";
 import AuthBottom from "../_components/AuthBottom";
+import LogoWithTitle from "../_components/LogoWithTitle";
 
 export default function Page() {
   const {
@@ -26,9 +25,7 @@ export default function Page() {
 
   return (
     <React.Fragment>
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <LockOutlinedIcon />
-      </Avatar>
+      <LogoWithTitle sx={{ mb: 1 }} />
 
       <Typography component="h1" variant="h5">
         Entrar
@@ -95,12 +92,17 @@ export default function Page() {
           )}
         </Button>
 
-        <Grid container>
-          <Grid item xs>
+        <Grid
+          container
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          <Grid item xs={12}>
             <AuthLink href="/forgot-password">Esqueceu sua senha?</AuthLink>
           </Grid>
 
-          <Grid item>
+          <Grid item xs={12}>
             <AuthLink href="/signup">Não tem uma conta? Cadastre-se</AuthLink>
           </Grid>
 
