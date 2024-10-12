@@ -1,57 +1,75 @@
 "use client";
 
 import * as React from "react";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import Link from "next/link";
-import Divider from "@mui/material/Divider";
-import { usePathname } from "next/navigation";
-import ProfileIcon from "@mui/icons-material/AccountCircle";
+import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import HomeIcon from "@mui/icons-material/Home";
-
-const PATHNAME = {
-  HOME: "conversations",
-  PROFILE: "profile",
-} as const;
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 export default function BottomTabMenu({
   sx,
 }: {
   sx?: React.ComponentProps<typeof Paper>["sx"];
 }) {
-  const pathname = usePathname();
-
-  const value = pathname.includes(PATHNAME.PROFILE)
-    ? PATHNAME.PROFILE
-    : pathname.includes(PATHNAME.HOME)
-    ? PATHNAME.HOME
-    : null;
-
   return (
-    <Paper
+    <Box
       sx={{
+        display: "flex",
+        gap: 2,
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "primary.main",
+        py: 4,
+        px: 1,
         ...sx,
       }}
     >
-      <Divider />
-      <BottomNavigation showLabels value={value}>
-        <BottomNavigationAction
-          label="Início"
-          icon={<HomeIcon />}
-          LinkComponent={Link}
-          href={`/${PATHNAME.HOME}`}
-          value={PATHNAME.HOME}
-        />
+      <Typography
+        variant="body2"
+        sx={{
+          color: "white",
+          mr: {
+            xs: 1,
+            sm: 4,
+          },
+        }}
+      >
+        Contrate agora
+      </Typography>
 
-        <BottomNavigationAction
-          label="Perfil"
-          icon={<ProfileIcon />}
-          LinkComponent={Link}
-          href={`/${PATHNAME.PROFILE}`}
-          value={PATHNAME.PROFILE}
-        />
-      </BottomNavigation>
-    </Paper>
+      <Button
+        variant="contained"
+        size="large"
+        sx={{
+          ml: 2,
+          bgcolor: "white",
+          color: "primary.main",
+          width: 200,
+          textTransform: "none",
+          "&:hover": {
+            bgcolor: "white",
+          },
+        }}
+      >
+        WhatsApp
+      </Button>
+
+      <Button
+        variant="contained"
+        size="large"
+        sx={{
+          ml: 2,
+          bgcolor: "white",
+          color: "primary.main",
+          width: 200,
+          textTransform: "none",
+          "&:hover": {
+            bgcolor: "white",
+          },
+        }}
+      >
+        Compre pelo chat
+      </Button>
+    </Box>
   );
 }

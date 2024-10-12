@@ -20,8 +20,9 @@ import GoogleGenAI, { Content } from "@/modules/google-generative-ai";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import CircularProgress from "@mui/material/CircularProgress";
-import Header from "./_page/Header";
-import { BOTTOM_TAB_MENU_HEIGHT, HEADER_HEIGHT } from "../../_layout/constants";
+import { BOTTOM_TAB_MENU_HEIGHT } from "@/app/(authenticated)/(bottom-tab)/_layout/constants";
+// import Header from "./_page/Header";
+// import { BOTTOM_TAB_MENU_HEIGHT, HEADER_HEIGHT } from "../../_layout/constants";
 
 interface PageProps {
   params: {
@@ -29,7 +30,7 @@ interface PageProps {
   };
 }
 
-export default function Page({ params }: PageProps) {
+export default function Conversation({ params }: PageProps) {
   const conversationId = params.id;
   const { user } = useUser();
 
@@ -188,18 +189,18 @@ export default function Page({ params }: PageProps) {
   return (
     <Box
       sx={{
-        height: `calc(100vh - ${HEADER_HEIGHT}px - ${BOTTOM_TAB_MENU_HEIGHT}px)`,
+        height: `calc(100vh - - ${BOTTOM_TAB_MENU_HEIGHT}px)`,
         display: "flex",
         flexDirection: "column",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      <Header
+      {/* <Header
         conversation={conversation}
         isLoading={isLoadingConversation}
         error={conversationError}
-      />
+      /> */}
 
       <Box
         sx={{

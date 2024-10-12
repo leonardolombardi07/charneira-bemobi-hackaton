@@ -42,20 +42,20 @@ function getDimensions(size: "small" | "medium" | "large") {
   switch (size) {
     case "small":
       return {
-        width: IMAGE_DIMENSIONS.width / 14,
-        height: IMAGE_DIMENSIONS.height / 14,
+        width: IMAGE_DIMENSIONS.width / 8,
+        height: IMAGE_DIMENSIONS.height / 8,
       };
 
     case "medium":
       return {
-        width: IMAGE_DIMENSIONS.width / 10,
-        height: IMAGE_DIMENSIONS.height / 10,
+        width: IMAGE_DIMENSIONS.width / 6,
+        height: IMAGE_DIMENSIONS.height / 6,
       };
 
     case "large":
       return {
-        width: IMAGE_DIMENSIONS.width / 6,
-        height: IMAGE_DIMENSIONS.height / 6,
+        width: IMAGE_DIMENSIONS.width / 4,
+        height: IMAGE_DIMENSIONS.height / 4,
       };
   }
 }

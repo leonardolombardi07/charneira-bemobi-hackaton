@@ -6,26 +6,32 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useUserContext } from "../UserProvider";
 import PageLoader from "@/components/feedback/PageLoader";
 import useDelay from "@/modules/hooks/useDelay";
+import { signIn } from "@/modules/api/client";
 
 function AuthenticationRouter({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const isInAuthRoute = useIsInAuthRoute();
-  const { user, isLoading } = useUserContext();
-  const isAuthenticated = Boolean(user);
-
-  const showPageLoader = isLoading || (!isAuthenticated && !isInAuthRoute);
-  const delayedShowPageLoader = useDelay(showPageLoader);
+  const { isLoading } = useUserContext();
+  const showPageLoader = isLoading;
+  const delayedShowPageLoader = useDelay(isLoading);
 
   React.useEffect(() => {
-    if (!isLoading && !isAuthenticated && !isInAuthRoute) {
-      // Preserve the intended route in the URL
-      router.push(
-        `/signin?${REDIRECT_TO_INITIAL_URL_SEARCH_PARAM_KEY}=${pathname}`
-      );
+    async function onFirstMount() {
+      try {
+        if (process.env.NODE_ENV === "development") {
+          await signIn("anonymous");
+          return;
+        }
+
+        await signIn("email/password", {
+          email: "TODO",
+          password: "TOD",
+        });
+      } catch (error) {
+        alert("some error ocorred");
+      }
     }
-  }, [isLoading, isAuthenticated, isInAuthRoute, router, pathname]);
+
+    onFirstMount();
+  }, []);
 
   if (delayedShowPageLoader) {
     // If we are waiting for data long enough, show the loader

@@ -43,7 +43,7 @@ function usePreferredTheme() {
 }
 
 const DEFAULT_THEME: PreferredTheme = {
-  name: "bemobi",
+  name: "vivo",
   mode: "light",
 };
 

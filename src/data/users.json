@@ -1,40 +1,40 @@
 [
-    {
-  "user": {
-    "id": "user_001",
-    "name": "João Silva",
-    "subscriptions": [
-      {
-        "id": "subscription_001",
-        "productId": "1",
-        "price": {
-          "id": "price_1_monthly",
-          "product": "1",
-          "unit_amount": 49.90,
-          "currency": "BRL",
-          "type": "recurring",
-          "recurring": {
-            "interval": "month",
-            "interval_count": 1
+  {
+    "user": {
+      "id": "user_001",
+      "name": "Alfred Hilbert",
+      "subscriptions": [
+        {
+          "id": "subscription_001",
+          "productId": "1",
+          "price": {
+            "id": "price_1_monthly",
+            "product": "1",
+            "unit_amount": 49.90,
+            "currency": "BRL",
+            "type": "recurring",
+            "recurring": {
+              "interval": "month",
+              "interval_count": 1
+            }
+          }
+        },
+        {
+          "id": "subscription_002",
+          "productId": "3",
+          "price": {
+            "id": "price_3_monthly",
+            "product": "3",
+            "unit_amount": 79.90,
+            "currency": "BRL",
+            "type": "recurring",
+            "recurring": {
+              "interval": "month",
+              "interval_count": 1
+            }
           }
         }
-      },
-      {
-        "id": "subscription_002",
-        "productId": "3",
-        "price": {
-          "id": "price_3_monthly",
-          "product": "3",
-          "unit_amount": 79.90,
-          "currency": "BRL",
-          "type": "recurring",
-          "recurring": {
-            "interval": "month",
-            "interval_count": 1
-          }
-        }
-      }
-    ]
+      ]
+    }
   }
-}
 ]

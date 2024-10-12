@@ -22,11 +22,16 @@ function getTypedCollection<T = DocumentData>(
 
 function getCollections() {
   const usersCol = getTypedCollection<UsersCol.Doc>(firestore, "users");
+  const productsCol = getTypedCollection<ConversationsCol.Doc>(
+    firestore,
+    "products"
+  );
   const conversationsCol = getTypedCollection<ConversationsCol.Doc>(
     firestore,
     "conversations"
   );
-  return { usersCol, conversationsCol };
+
+  return { usersCol, productsCol, conversationsCol };
 }
 
 export { getCollections };

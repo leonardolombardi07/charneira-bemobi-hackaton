@@ -63,6 +63,7 @@ async function signUp(
   await createUserOnFirestoreIfDoesNotExist(user.uid, {
     name: user.displayName || "",
     photoURL: user.photoURL || "",
+    subscriptions: [],
   });
 
   return userCredential;
@@ -106,6 +107,7 @@ async function signIn(
   await createUserOnFirestoreIfDoesNotExist(user.uid, {
     name: user.displayName || "",
     photoURL: user.photoURL || "",
+    subscriptions: [],
   });
   return userCredential;
 }

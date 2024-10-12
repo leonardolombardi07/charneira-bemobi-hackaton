@@ -1,18 +1,13 @@
 import { PreferredTheme } from "../constants";
-import { BLUE_THEME, DARK_BLUE_THEME } from "./blue";
-import { DARK_BEMOBI_THEME, BEMOBI_THEME } from "./bemobi";
+import { VIVO_THEME, DARK_VIVO_THEME } from "./vivo";
 
 export const THEMES: {
   [key in PreferredTheme["name"]]: {
-    [key in PreferredTheme["mode"]]: typeof BLUE_THEME;
+    [key in PreferredTheme["mode"]]: typeof VIVO_THEME;
   };
 } = {
-  blue: {
-    light: BLUE_THEME,
-    dark: DARK_BLUE_THEME,
-  },
-  ["bemobi"]: {
-    light: BEMOBI_THEME,
-    dark: DARK_BEMOBI_THEME,
+  vivo: {
+    light: VIVO_THEME,
+    dark: DARK_VIVO_THEME,
   },
 } as const;

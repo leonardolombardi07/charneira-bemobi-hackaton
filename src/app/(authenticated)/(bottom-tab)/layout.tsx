@@ -3,7 +3,7 @@ import BottomTabMenu from "./_layout/BottomTabMenu";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Header from "./_layout/Header";
-import { BOTTOM_TAB_MENU_HEIGHT, HEADER_HEIGHT } from "./_layout/constants";
+import { BOTTOM_TAB_MENU_HEIGHT } from "./_layout/constants";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,14 +12,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
+        overflowX: "hidden",
       }}
     >
-      <Header
-        sx={{
-          height: `${HEADER_HEIGHT}px`,
-        }}
-      />
-      <Toolbar />
+      <Header />
 
       <Box
         sx={{
