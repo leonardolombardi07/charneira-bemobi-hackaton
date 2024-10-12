@@ -14,7 +14,6 @@ const CREATE_BUTTON_PADDING_BOTTOM = 50;
 
 export default function Page() {
   const { user } = useUser();
-  // TODO: handle loading and error states
   const [data = [], isLoading, error] = useUserConversations(user.uid);
 
   return (
@@ -29,7 +28,7 @@ export default function Page() {
         pt: 1,
       }}
     >
-      <ConversationsList data={data} />
+      <ConversationsList data={data} isLoading={isLoading} error={error} />
 
       <Box sx={{ flexGrow: 1 }} />
 

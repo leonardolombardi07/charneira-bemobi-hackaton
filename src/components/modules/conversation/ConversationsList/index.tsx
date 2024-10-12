@@ -8,13 +8,32 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { ConversationsCol } from "@/modules/api";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 interface ConversationListProps {
   data: ConversationsCol.Doc[];
+  isLoading: boolean;
+  error: Error | undefined | null;
 }
 
-export default function ConversationsList({ data }: ConversationListProps) {
-  if (data.length === 0) {
+export default function ConversationsList({
+  data,
+  isLoading,
+  error,
+}: ConversationListProps) {
+  // TODO: handle loading
+
+  if (error) {
+    return (
+      <Alert severity="error">
+        <AlertTitle>Erro</AlertTitle>
+        {error.message}
+      </Alert>
+    );
+  }
+
+  if (data.length === 0 && !isLoading) {
     return <EmptyList />;
   }
 
