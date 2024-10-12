@@ -8,6 +8,8 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Fade from "@mui/material/Fade";
 import ConversationsList from "../ConversationsList";
+import Box from "@mui/material/Box";
+import ConversationPart from "../ConversationPart";
 
 interface ConversationFabProps extends FabProps {}
 
@@ -46,11 +48,13 @@ interface ConversationPopperProps {
 }
 
 function ConversationPopper({ open, close }: ConversationPopperProps) {
+  const dataToUse: any[] = [];
   return (
     <Popper
       open={open}
       className="popper-root"
       modifiers={{
+        // @ts-ignore
         offset: {
           enabled: true,
           offset: "0, 30",
@@ -67,7 +71,28 @@ function ConversationPopper({ open, close }: ConversationPopperProps) {
               minHeight: 600,
             }}
           >
-            <ConversationsList isLoading={false} data={[]} error={null} />
+            <Box
+              sx={{
+                flex: 1,
+                overflowY: "auto",
+                p: 2,
+                display: "flex",
+                // Make sure the scroll always starts at the bottom
+                flexDirection: "column-reverse",
+              }}
+              // ref={partsListRef}
+            >
+              {dataToUse.map((p) => (
+                <ConversationPart
+                  key={p.id}
+                  part={p}
+                  part_type={p.type}
+                  onReply={() => {}}
+                />
+              ))}
+
+              <Box sx={{ flexGrow: 1 }} />
+            </Box>
           </Paper>
         </Fade>
       )}

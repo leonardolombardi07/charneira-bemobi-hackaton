@@ -21,6 +21,7 @@ export default function N8NChat() {
         "My name is Lau. How can I assist you today?",
       ],
       i18n: {
+        // @ts-ignore
         en: {
           title: "Fala meu amigo! 👋",
           subtitle: "Funciona maneiro?.",
