@@ -16,20 +16,20 @@ export default function N8NChat() {
       metadata: {},
       showWelcomeScreen: false,
       defaultLanguage: "en",
-      initialMessages: [
-        "Hi there! 👋",
-        "My name is Lau. How can I assist you today?",
-      ],
       i18n: {
         // @ts-ignore
         en: {
-          title: "Fala meu amigo! 👋",
-          subtitle: "Funciona maneiro?.",
-          footer: "",
-          getStarted: "Começa a conversa",
-          inputPlaceholder: "Escreve algo...",
+          title: "OmniChat™",
+          subtitle: "O estado da arte em recomendações personalizadas.",
+          footer: "Powered by Bemobi",
+          getStarted: "Nova Conversa",
+          inputPlaceholder: "Digite sua mensagem...",
         },
       },
+      initialMessages: [
+        "Olá! 👋",
+        "Eu sou o CharnaBot. Fale sobre você e eu te ajudarei a encontrar as melhores ofertas de planos.",
+      ],
     });
   }, []);
 

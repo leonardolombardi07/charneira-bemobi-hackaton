@@ -16,17 +16,9 @@ function AuthenticationRouter({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     async function onFirstMount() {
       try {
-        if (process.env.NODE_ENV === "development") {
-          await signIn("anonymous");
-          return;
-        }
-
-        await signIn("email/password", {
-          email: "TODO",
-          password: "TOD",
-        });
+        await signIn("anonymous");
       } catch (error) {
-        alert("some error ocorred");
+        // Do nothing now
       }
     }
 

@@ -3,11 +3,8 @@
 import React from "react";
 import Popper from "@mui/material/Popper";
 import Fab, { FabProps } from "@mui/material/Fab";
-import AIIcon from "@mui/icons-material/Chat";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 import Fade from "@mui/material/Fade";
-import ConversationsList from "../ConversationsList";
 import Box from "@mui/material/Box";
 import ConversationPart from "../ConversationPart";
 
