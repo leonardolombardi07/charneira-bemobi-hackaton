@@ -12,6 +12,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
 
 interface HeaderProps {
   sx?: BoxProps["sx"];
@@ -107,7 +108,33 @@ function FirstRow() {
           Buscar
         </Button>
 
-        <Button
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1,
+            alignItems: "center",
+          }}
+        >
+          <Avatar
+            sx={{ bgcolor: "primary.main" }}
+            alt="Alfred"
+            src="https://avatars.githubusercontent.com/u/4?v=4"
+          >
+            A
+          </Avatar>
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              color: "text.primary",
+            }}
+          >
+            Alfred
+          </Typography>
+        </Box>
+
+        {/* <Button
           variant="text"
           startIcon={<AccountIcon />}
           sx={{
@@ -115,7 +142,7 @@ function FirstRow() {
           }}
         >
           Login
-        </Button>
+        </Button> */}
 
         <Box
           sx={{

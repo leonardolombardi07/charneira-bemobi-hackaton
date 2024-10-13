@@ -1,7 +1,6 @@
 import * as React from "react";
 import BottomTabMenu from "./_layout/BottomTabMenu";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Header from "./_layout/Header";
 import { BOTTOM_TAB_MENU_HEIGHT } from "./_layout/constants";
 
