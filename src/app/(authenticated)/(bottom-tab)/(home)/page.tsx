@@ -86,7 +86,7 @@ export default function Page() {
       >
         {PRODUCTS.map((product, index) => (
           <Grid key={product.id} item xs={12} sm={6} md={4} lg={3}>
-            <ProductCard index={index} product={product} />
+            <ProductCard product={product} />
           </Grid>
         ))}
       </Grid>
@@ -94,28 +94,15 @@ export default function Page() {
   );
 }
 
-function ProductCard({
-  product,
-  index,
-}: {
-  index: number;
-  product: ProductsCol.Doc;
-}) {
+function ProductCard({ product }: { product: ProductsCol.Doc }) {
   const { name, features, prices } = product;
-
-  // Name might be "Vivo Controle 8GB" - remove 8GB part
-  const nameWithoutData = name.replace(/\s+\d+GB$/, "");
-
-  //   Get the GB
-
-  const firstFeature = features[0];
 
   const secondFeature = features[1];
   const restFeatures = features.slice(2);
 
+  // TODO: use currency
   const price = prices[0];
   const { currency, unit_amount, recurring } = price;
-
   const formattedPrice = `R$ ${unit_amount} /${humanReadableRecurring(
     recurring
   )}`;
@@ -160,11 +147,11 @@ function ProductCard({
               textTransform: "uppercase",
             }}
           >
-            {nameWithoutData}
+            {getFormattedName(name)}
           </Typography>
 
           <Typography variant="h5" component={"p"} gutterBottom>
-            {mapIndexToGB(index)}GB
+            {getDataAmount(product)}
           </Typography>
 
           <Typography
@@ -245,6 +232,30 @@ function ProductCard({
       <N8NChat />
     </React.Fragment>
   );
+}
+
+function getFormattedName(name: string) {
+  // "Vivo Controle 8GB", "Vivo Fibra 200MB", "Vivo TV HD", "Vivo Combo TV + Internet", "Vivo Controle 15GB"
+  // Replace {number}GB and {number}MB
+  return name.replace(/\s+\d+GB$/, "").replace(/\s+\d+MB$/, "");
+}
+
+function getDataAmount({ name, features }: ProductsCol.Doc) {
+  // Check if name has a number followed by GB or MB
+  const match = name.match(/\d+(GB|MB)/);
+  if (!match) {
+    // Check if features has a number followed by GB or MB
+    const featureMatch = features.find((feature) =>
+      feature.match(/\d+(GB|MB)/)
+    );
+    if (!featureMatch) {
+      return "-";
+    }
+
+    return featureMatch;
+  }
+
+  return match[0];
 }
 
 function humanReadableRecurring(recurring: ProductsCol.Price["recurring"]) {

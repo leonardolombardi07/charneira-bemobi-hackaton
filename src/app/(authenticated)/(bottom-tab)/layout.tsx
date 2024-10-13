@@ -11,18 +11,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
-        overflowX: "hidden",
+        height: `calc(100vh - ${BOTTOM_TAB_MENU_HEIGHT + 4}px)`,
       }}
     >
-      <Header />
-
       <Box
         sx={{
           flex: 1,
-          pb: `${BOTTOM_TAB_MENU_HEIGHT}px`,
+          overflowY: "auto",
         }}
       >
+        <Header />
+
         {children}
       </Box>
 
