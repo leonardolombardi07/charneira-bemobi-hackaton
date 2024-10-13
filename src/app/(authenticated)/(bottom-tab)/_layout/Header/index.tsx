@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
+import AlfredAvatar from "../../../../../../public/images/AlfredAvatar/AlfredAvatar.webp";
 
 interface HeaderProps {
   sx?: BoxProps["sx"];
@@ -118,7 +119,8 @@ function FirstRow() {
           <Avatar
             sx={{ bgcolor: "primary.main" }}
             alt="Alfred"
-            src="https://avatars.githubusercontent.com/u/4?v=4"
+            // @ts-ignore
+            src={AlfredAvatar}
           >
             A
           </Avatar>
