@@ -26,7 +26,6 @@ function AuthenticationRouter({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     if (!isLoading && !isAuthenticated && !isInAuthRoute) {
-      // Preserve the intended route in the URL
       router.push(`/organization/signin`);
     }
   }, [isLoading, isAuthenticated, isInAuthRoute, router, pathname]);

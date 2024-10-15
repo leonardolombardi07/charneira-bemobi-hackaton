@@ -25,3 +25,4 @@ async function updateOrgMember(
 }
 
 export { useOrgMember, updateOrgMember };
+export * from "./avatar";
