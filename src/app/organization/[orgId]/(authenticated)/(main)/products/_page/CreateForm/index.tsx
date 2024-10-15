@@ -9,6 +9,8 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useParams } from "next/navigation";
@@ -129,18 +131,24 @@ export default function CreateForm({ onCreate, onCancel }: CreateFormProps) {
               InputLabelProps={{ shrink: true }}
             />
 
-            <Select
-              name="recurringInterval"
-              fullWidth
-              required
-              label={`Período de Cobrança`}
-              sx={{
-                my: 1,
-              }}
-            >
-              <MenuItem value="month">Mensal</MenuItem>
-              <MenuItem value="year">Anual</MenuItem>
-            </Select>
+            <FormControl fullWidth sx={{ my: 1 }}>
+              <InputLabel id="recurringInterval">
+                Período de Cobrança
+              </InputLabel>
+
+              <Select
+                name="recurringInterval"
+                labelId="recurringInterval"
+                fullWidth
+                required
+                sx={{
+                  my: 1,
+                }}
+              >
+                <MenuItem value="month">Mensal</MenuItem>
+                <MenuItem value="year">Anual</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
 
           {error && (

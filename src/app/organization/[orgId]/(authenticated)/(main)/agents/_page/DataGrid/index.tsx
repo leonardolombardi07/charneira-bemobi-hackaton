@@ -37,7 +37,7 @@ function NoRows() {
   return (
     <EmptyState
       icon={<EmptyDocumentsIcon sx={{ fontSize: 60 }} />}
-      title="Nenhum agente."
+      title="Nenhum agente"
       description="Parece que você ainda não criou nenhum agente."
     />
   );

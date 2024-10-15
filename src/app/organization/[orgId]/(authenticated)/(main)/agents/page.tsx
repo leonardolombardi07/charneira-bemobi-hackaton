@@ -18,7 +18,11 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   return (
-    <Container>
+    <Container
+      sx={{
+        pt: 3,
+      }}
+    >
       <Box
         sx={{
           display: "flex",
