@@ -14,9 +14,9 @@ import { DRAWER_WIDTH } from "../constants";
 import Link from "next/link";
 import HomeIcon from "@mui/icons-material/Home";
 import ConversationIcon from "@mui/icons-material/Chat";
-import AgentIcon from "@mui/icons-material/Rocket";
+import AgentIcon from "@mui/icons-material/SmartToy";
 import ProfileIcon from "@mui/icons-material/AccountCircle";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const PATHNAME = {
   HOME: "products",
@@ -66,7 +66,7 @@ export default function Drawer({
           },
         }}
       >
-        <DrawerContent />
+        <DrawerContent closeDrawer={handleDrawerClose} />
       </MUIDrawer>
 
       <MUIDrawer
@@ -80,17 +80,23 @@ export default function Drawer({
         }}
         open
       >
-        <DrawerContent />
+        <DrawerContent closeDrawer={handleDrawerClose} />
       </MUIDrawer>
     </Box>
   );
 }
 
-function DrawerContent() {
+function DrawerContent({ closeDrawer }: { closeDrawer: () => void }) {
+  const router = useRouter();
   const pathname = usePathname();
 
   function isSelected(path: keyof typeof PATHNAME) {
     return pathname.includes(PATHNAME[path]);
+  }
+
+  function onClick(path: keyof typeof PATHNAME) {
+    closeDrawer();
+    router.push(PATHNAME[path]);
   }
 
   return (
@@ -104,6 +110,7 @@ function DrawerContent() {
             selected={isSelected("HOME")}
             LinkComponent={Link}
             href={PATHNAME.HOME}
+            onClick={() => onClick("HOME")}
           >
             <ListItemIcon>
               <HomeIcon />
@@ -117,6 +124,7 @@ function DrawerContent() {
             selected={isSelected("CONVERSATIONS")}
             LinkComponent={Link}
             href={PATHNAME.CONVERSATIONS}
+            onClick={() => onClick("CONVERSATIONS")}
           >
             <ListItemIcon>
               <ConversationIcon />
@@ -130,6 +138,7 @@ function DrawerContent() {
             selected={isSelected("AGENTS")}
             LinkComponent={Link}
             href={PATHNAME.AGENTS}
+            onClick={() => onClick("AGENTS")}
           >
             <ListItemIcon>
               <AgentIcon />
@@ -143,6 +152,7 @@ function DrawerContent() {
             selected={isSelected("PROFILE")}
             LinkComponent={Link}
             href={PATHNAME.PROFILE}
+            onClick={() => onClick("PROFILE")}
           >
             <ListItemIcon>
               <ProfileIcon />
