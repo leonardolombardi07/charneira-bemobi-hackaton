@@ -63,7 +63,6 @@ async function signUp(
   await createUserOnFirestoreIfDoesNotExist(user.uid, {
     name: user.displayName || "",
     photoURL: user.photoURL || "",
-    subscriptions: [],
   });
 
   return userCredential;
@@ -103,12 +102,6 @@ async function signIn(
     throw new Error("Provider not supported");
   }
 
-  const { user } = userCredential;
-  await createUserOnFirestoreIfDoesNotExist(user.uid, {
-    name: user.displayName || "",
-    photoURL: user.photoURL || "",
-    subscriptions: [],
-  });
   return userCredential;
 }
 
@@ -201,3 +194,4 @@ export {
   updatePassword,
   linkAnonymousUser,
 };
+export * from "./organization";

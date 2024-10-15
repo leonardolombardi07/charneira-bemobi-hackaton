@@ -1,14 +1,14 @@
-import { ConversationsCol } from "@/modules/api";
+import { OrganizationsCol } from "@/modules/api";
 import Box, { BoxProps } from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Markdown from "react-markdown";
 
 interface ConversationPartProps {
-  part_type: ConversationsCol.PartsSubCol.Doc["type"];
-  part: ConversationsCol.PartsSubCol.Doc;
+  part_type: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc["type"];
+  part: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc;
   onReply: (
-    replyOption: ConversationsCol.PartsSubCol.ConversationPartReplyOption
+    replyOption: OrganizationsCol.ConversationsSubCol.PartsSubCol.ConversationPartReplyOption
   ) => void;
 }
 
@@ -49,13 +49,13 @@ function ConversationPartContainer({
   part,
   children,
 }: {
-  part: ConversationsCol.PartsSubCol.Doc;
+  part: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc;
   children: React.ReactNode;
 }) {
   const { author } = part;
 
   function sxForAuthorType(
-    authorType: ConversationsCol.PartsSubCol.ConversationPartAuthor["type"]
+    authorType: OrganizationsCol.ConversationsSubCol.PartsSubCol.ConversationPartAuthor["type"]
   ): BoxProps["sx"] {
     switch (authorType) {
       case "user":

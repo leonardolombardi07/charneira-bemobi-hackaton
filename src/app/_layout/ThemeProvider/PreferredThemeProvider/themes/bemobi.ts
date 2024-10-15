@@ -3,6 +3,7 @@
 import { Poppins } from "next/font/google";
 import { ptBR } from "@mui/material/locale";
 import { createTheme, responsiveFontSizes } from "@mui/material";
+import { ptBR as dataGridPtBR } from "@mui/x-data-grid";
 
 const font = Poppins({
   weight: ["400"],
@@ -66,7 +67,8 @@ const BEMOBI_THEME = responsiveFontSizes(
         },
       },
     },
-    ptBR
+    ptBR,
+    dataGridPtBR
   )
 );
 
@@ -125,7 +127,8 @@ const DARK_BEMOBI_THEME = responsiveFontSizes(
         },
       },
     },
-    ptBR
+    ptBR,
+    dataGridPtBR
   )
 );
 

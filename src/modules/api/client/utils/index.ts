@@ -3,12 +3,13 @@ import type {
   DocumentData,
   Firestore,
 } from "firebase/firestore";
-import { collection } from "firebase/firestore";
+import { collection, collectionGroup } from "firebase/firestore";
 import { getServices } from "../services";
 import {
   UsersCol,
-  ConversationsCol,
   CollectionName,
+  OrganizationsCol,
+  CollectionGroupName,
 } from "@/modules/api/types";
 
 const { firestore } = getServices();
@@ -20,18 +21,26 @@ function getTypedCollection<T = DocumentData>(
   return collection(firestore, name) as CollectionReference<T>;
 }
 
-function getCollections() {
-  const usersCol = getTypedCollection<UsersCol.Doc>(firestore, "users");
-  const productsCol = getTypedCollection<ConversationsCol.Doc>(
-    firestore,
-    "products"
-  );
-  const conversationsCol = getTypedCollection<ConversationsCol.Doc>(
-    firestore,
-    "conversations"
-  );
-
-  return { usersCol, productsCol, conversationsCol };
+function getTypedCollectionGroup<T = DocumentData>(name: CollectionGroupName) {
+  return collectionGroup(firestore, name) as CollectionReference<T>;
 }
 
-export { getCollections };
+function getCollections() {
+  const usersCol = getTypedCollection<UsersCol.Doc>(firestore, "users");
+
+  const organizationsCol = getTypedCollection<OrganizationsCol.Doc>(
+    firestore,
+    "organizations"
+  );
+
+  return { usersCol, organizationsCol };
+}
+
+function getCollectionGroups() {
+  const membersColGroup =
+    getTypedCollectionGroup<OrganizationsCol.MembersSubCol.Doc>("members");
+
+  return { membersColGroup };
+}
+
+export { getCollections, getCollectionGroups };

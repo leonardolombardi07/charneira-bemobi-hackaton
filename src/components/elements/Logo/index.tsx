@@ -1,4 +1,4 @@
-import { APP_NAME } from "@/app/constants";
+import { APP_NAME } from "@/app/organization/constants";
 import Image from "next/image";
 import Link from "next/link";
 import LogoImage from "../../../../public/images/Logo/Logo.png";
@@ -42,20 +42,20 @@ function getDimensions(size: "small" | "medium" | "large") {
   switch (size) {
     case "small":
       return {
-        width: IMAGE_DIMENSIONS.width / 8,
-        height: IMAGE_DIMENSIONS.height / 8,
+        width: IMAGE_DIMENSIONS.width / 12,
+        height: IMAGE_DIMENSIONS.height / 12,
       };
 
     case "medium":
       return {
-        width: IMAGE_DIMENSIONS.width / 6,
-        height: IMAGE_DIMENSIONS.height / 6,
+        width: IMAGE_DIMENSIONS.width / 9,
+        height: IMAGE_DIMENSIONS.height / 9,
       };
 
     case "large":
       return {
-        width: IMAGE_DIMENSIONS.width / 4,
-        height: IMAGE_DIMENSIONS.height / 4,
+        width: IMAGE_DIMENSIONS.width / 6,
+        height: IMAGE_DIMENSIONS.height / 6,
       };
   }
 }

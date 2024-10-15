@@ -1,4 +1,4 @@
-export const THEME_NAMES = ["vivo"] as const;
+export const THEME_NAMES = ["bemobi"] as const;
 export const THEME_MODES = ["light", "dark"] as const;
 
 type ThemeName = (typeof THEME_NAMES)[number];
