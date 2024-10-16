@@ -1,8 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { DataItem } from "./types";
+import { Row } from "./types";
 
-type ColumnWithTypedField = GridColDef<DataItem> & {
-  field: keyof DataItem;
+type ColumnWithTypedField = GridColDef<Row> & {
+  field: keyof Row;
 };
 
 export const COLUMNS: ColumnWithTypedField[] = [
@@ -10,19 +10,29 @@ export const COLUMNS: ColumnWithTypedField[] = [
     field: "name",
     headerName: "Nome",
     minWidth: 150,
+    editable: true,
   },
   {
     field: "description",
     headerName: "Descrição",
     minWidth: 150,
+    editable: true,
+  },
+
+  {
+    field: "instructions",
+    headerName: "Instruções",
+    minWidth: 150,
+    editable: true,
   },
 
   {
     field: "createdAt",
     headerName: "Criado em",
     valueGetter: (params) => {
-      return new Date(params.row.createdAt).toLocaleString();
+      return new Date(params.row.createdAt).toLocaleDateString();
     },
     minWidth: 140,
+    editable: false,
   },
 ];

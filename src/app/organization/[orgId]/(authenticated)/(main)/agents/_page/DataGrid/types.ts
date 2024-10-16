@@ -1,3 +1,3 @@
 import { OrganizationsCol } from "@/modules/api";
 
-export type DataItem = OrganizationsCol.AgentsSubCol.Doc;
+export type Row = OrganizationsCol.AgentsSubCol.Doc;

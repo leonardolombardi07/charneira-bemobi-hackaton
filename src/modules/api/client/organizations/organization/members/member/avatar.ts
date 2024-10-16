@@ -23,7 +23,10 @@ async function uploadOrgMemberAvatar(
     contentType: "image/jpeg",
   });
   const downloadURL = await getDownloadURL(result.ref);
-  return updateOrgMember(memberId, orgId, { photoURL: downloadURL });
+  updateOrgMember(memberId, orgId, { photoURL: downloadURL });
+  return {
+    downloadURL,
+  };
 }
 
 async function deleteOrgMemberAvatar(memberId: string, orgId: string) {

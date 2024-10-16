@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^0.0.52",
+    "@ai-sdk/openai": "^0.0.67",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -20,6 +22,7 @@
     "@n8n/chat": "^0.27.1",
     "@pinecone-database/pinecone": "^3.0.3",
     "@uidotdev/usehooks": "^2.4.1",
+    "ai": "^3.4.12",
     "axios": "^1.6.7",
     "firebase": "^10.7.2",
     "json-edit-react": "^1.15.4",
@@ -30,7 +33,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-markdown": "^9.0.1",
     "react-share": "^5.0.3",
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",

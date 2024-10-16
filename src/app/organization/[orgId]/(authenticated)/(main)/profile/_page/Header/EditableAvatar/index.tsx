@@ -18,6 +18,7 @@ import useDelay from "@/modules/hooks/useDelay";
 import Skeleton from "@mui/material/Skeleton";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { updateProfile } from "firebase/auth";
 
 export default function EditableAvatar() {
   const params = useParams();
@@ -40,6 +41,7 @@ export default function EditableAvatar() {
     setIsUploading(true);
     try {
       await deleteOrgMemberAvatar(user.uid, orgId);
+      updateProfile(user, { photoURL: null });
     } catch (error: any) {
       openSnackbar();
       setUploadError(error.message);
@@ -55,7 +57,12 @@ export default function EditableAvatar() {
     setIsUploading(true);
 
     try {
-      await uploadOrgMemberAvatar(user.uid, orgId, file);
+      const { downloadURL } = await uploadOrgMemberAvatar(
+        user.uid,
+        orgId,
+        file
+      );
+      updateProfile(user, { photoURL: downloadURL });
     } catch (error: any) {
       openSnackbar();
       setUploadError(error.message);

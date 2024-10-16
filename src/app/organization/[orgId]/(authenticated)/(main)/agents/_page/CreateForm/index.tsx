@@ -37,20 +37,20 @@ export default function CreateForm({ onCreate, onCancel }: CreateFormProps) {
 
     const description = String(formData.get("description"));
 
-    const prompt = String(formData.get("prompt"));
-    if (!prompt) return setError(`O prompt não pode ser vazio.`);
+    const instructions = String(formData.get("instructions"));
+    if (!instructions) return setError(`O instructions não pode ser vazio.`);
 
     setIsLoading(true);
     setError(null);
 
     try {
-      await createAgent({
+      createAgent({
         name,
         description,
         orgId: params.orgId as string,
         createdAt: Date.now(),
         updatedAt: Date.now(),
-        prompts: [prompt],
+        instructions,
         uiConfig: {
           alignment: "left",
           color: theme.palette.primary.main,
@@ -96,7 +96,7 @@ export default function CreateForm({ onCreate, onCancel }: CreateFormProps) {
             name="description"
             fullWidth
             label={`Descrição`}
-            placeholder="Descrição do agente..."
+            placeholder={`Descreva o agente, suas funções, responsabilidades, etc...`}
             multiline
             rows={4}
             sx={{
@@ -106,10 +106,10 @@ export default function CreateForm({ onCreate, onCancel }: CreateFormProps) {
           />
 
           <TextField
-            name="prompt"
+            name="instructions"
             fullWidth
-            label={`Prompt`}
-            placeholder="Customize como seu agente deve se comportar. Aqui você pode adicionar mensagens de boas-vindas, instruções, dados importantes, etc..."
+            label={`Instruções`}
+            placeholder="Customize como seu agente deve se comportar. Aqui você pode adicionar instruções para o agente, como por exemplo, como ele deve responder a determinadas perguntas, como ele deve se comportar em determinadas situações, etc..."
             multiline
             rows={6}
             sx={{

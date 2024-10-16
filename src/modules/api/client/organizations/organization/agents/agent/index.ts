@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { OrganizationsCol } from "@/modules/api/types";
 import { getOrganizationSubcollections } from "../../utils";
@@ -26,7 +26,13 @@ type UpdateAgentData = Partial<OrganizationsCol.AgentsSubCol.Doc> & {
 function updateAgent(id: string, data: UpdateAgentData) {
   const { agentsCol } = getOrganizationSubcollections(data.orgId);
   const cDoc = doc(agentsCol, id);
-  setDoc(cDoc, { updatedAt: Date.now(), ...data }, { merge: true });
+  return setDoc(cDoc, { updatedAt: Date.now(), ...data }, { merge: true });
 }
 
-export { useAgent, createAgent, updateAgent };
+function deleteAgent(orgId: string, agentId: string) {
+  const { agentsCol } = getOrganizationSubcollections(orgId);
+  const aDoc = doc(agentsCol, agentId);
+  return deleteDoc(aDoc);
+}
+
+export { useAgent, createAgent, updateAgent, deleteAgent };

@@ -79,8 +79,8 @@ function ConversationPartContainer({
   const float = author.type === "user" ? "right" : "left";
 
   const paddingLeft = {
-    xs: 0,
-    sm: 48,
+    xs: "20px",
+    md: "48px",
   };
 
   return (
@@ -101,12 +101,12 @@ function ConversationPartContainer({
           textAlign: "left",
           float,
           paddingLeft: {
-            xs: `${paddingLeft.xs}px`,
-            sm: `${paddingLeft.sm}px`,
+            xs: `${paddingLeft.xs}`,
+            md: paddingLeft.md,
           },
           width: {
-            xs: `calc(100% - ${paddingLeft.xs}px)`,
-            sm: `calc(100% - ${paddingLeft.sm}px)`,
+            xs: `calc(100% - ${paddingLeft.xs})`,
+            md: `calc(100% - ${paddingLeft.md})`,
           },
           mb: 1,
         }}
@@ -133,7 +133,7 @@ function ConversationPartContainer({
               p: 3,
               maxWidth: {
                 xs: "90%",
-                sm: "75%",
+                md: "75%",
               },
               ...sxForAuthorType(author.type),
             }}

@@ -2,6 +2,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { OrganizationsCol } from "@/modules/api/types";
 import { getOrganizationSubcollections } from "../../utils";
+import { getServices } from "@/modules/api/client/services";
 
 function useOrgMember(orgId: string, memberId: string) {
   const { membersCol } = getOrganizationSubcollections(orgId);

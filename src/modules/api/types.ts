@@ -110,9 +110,9 @@ export namespace OrganizationsCol {
       orgId: string;
       name: string;
       description: string;
+      instructions: string;
       createdAt: Timestamp;
       updatedAt: Timestamp;
-      prompts: string[];
       uiConfig: UIConfig;
     }
   }
