@@ -24,6 +24,8 @@ import { useOrgProducts } from "@/modules/api/client";
 import { useParams } from "next/navigation";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 function createSystemInstruction({
   agent,
@@ -64,7 +66,9 @@ export default function ConversationDialog({
 }) {
   const params = useParams();
   const orgId = params.orgId as string;
+
   const { user } = useUser();
+
   const [orgProducts = [], isLoadingProducts, productsError] =
     useOrgProducts(orgId);
 
@@ -81,6 +85,8 @@ export default function ConversationDialog({
     "idle" | "sending_user_message" | "loading_ai_response"
   >("idle");
   const [sendError, setSendError] = React.useState<string | null>(null);
+
+  const fullScreen = useFullScreen();
 
   React.useEffect(
     function scrollWhenLoadingAiResponse() {
@@ -208,11 +214,7 @@ export default function ConversationDialog({
     <Dialog
       open={true}
       onClose={onClose}
-      sx={
-        {
-          // minWidth: "400px",
-        }
-      }
+      fullScreen={fullScreen}
       maxWidth="lg"
       keepMounted={false}
     >
@@ -223,13 +225,13 @@ export default function ConversationDialog({
       >
         <Box
           sx={{
-            height: 500,
+            height: "min(100vh, 500px)",
             maxHeight: "100%",
             width: 600,
+            maxWidth: "100%",
             display: "flex",
             flexDirection: "column",
             position: "relative",
-            // overflow: "hidden",
           }}
         >
           <Header
@@ -417,4 +419,10 @@ function authorTypeToGoogleGenAIRole(
     default:
       return "system";
   }
+}
+
+function useFullScreen() {
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.only("xs"));
+  return isXs;
 }
