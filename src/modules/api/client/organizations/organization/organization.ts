@@ -1,8 +1,9 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { OrganizationsCol } from "@/modules/api/types";
-import { getCollections } from "../../utils";
+import { getCollectionGroups, getCollections } from "../../utils";
 
 const { organizationsCol } = getCollections();
+const { membersColGroup } = getCollectionGroups();
 
 type CreateOrganizationData = Omit<OrganizationsCol.Doc, "id">;
 
@@ -14,4 +15,14 @@ function createOrganization(data: CreateOrganizationData) {
   };
 }
 
-export { createOrganization };
+async function getUserOrgId(uid: string) {
+  const userSnap = await getDoc(doc(membersColGroup, uid));
+  if (!userSnap.exists()) {
+    throw new Error("User not found");
+  }
+
+  const user = userSnap.data() as OrganizationsCol.MembersSubCol.Doc;
+  return user.orgId;
+}
+
+export { createOrganization, getUserOrgId };

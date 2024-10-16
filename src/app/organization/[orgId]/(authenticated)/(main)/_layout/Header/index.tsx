@@ -48,8 +48,6 @@ export default function Header({ sx, onDrawerToggle }: HeaderProps) {
         </IconButton>
 
         <Box
-          component={Link}
-          href="/"
           sx={{
             display: "flex",
             alignItems: "center",

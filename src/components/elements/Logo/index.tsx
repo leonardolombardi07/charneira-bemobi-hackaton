@@ -1,6 +1,6 @@
 import { APP_NAME } from "@/app/organization/constants";
 import Image from "next/image";
-import Link from "next/link";
+import Box from "@mui/material/Box";
 import LogoImage from "../../../../public/images/Logo/Logo.png";
 
 const IMAGE_DIMENSIONS = {
@@ -14,9 +14,8 @@ interface LogoProps {
 
 export default function Logo({ size = "medium" }: LogoProps) {
   return (
-    <Link
-      href={`/`}
-      style={{
+    <Box
+      sx={{
         display: "block",
         position: "relative",
         ...getDimensions(size),
@@ -34,7 +33,7 @@ export default function Logo({ size = "medium" }: LogoProps) {
         priority
         sizes={getSizesFromLargestDimensions()}
       />
-    </Link>
+    </Box>
   );
 }
 
