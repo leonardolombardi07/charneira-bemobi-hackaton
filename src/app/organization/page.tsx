@@ -21,9 +21,11 @@ export default function Page() {
       try {
         const orgId = await getUserOrgId(user.uid);
         goHome(orgId);
-      } catch (error) {
+      } catch (error: any) {
+        console.log(error);
+        console.log(error?.message);
         signOut();
-        router.push("/orgnaization/signin");
+        router.push("/organization/signin");
         console.error(error);
       }
     }
