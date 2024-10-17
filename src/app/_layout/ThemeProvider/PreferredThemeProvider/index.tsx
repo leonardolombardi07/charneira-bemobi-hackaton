@@ -18,18 +18,19 @@ const PreferredThemeContext =
 function PreferredThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, _setTheme] = React.useState<PreferredTheme>(ThemeCache.get());
 
-  function setTheme(
-    theme: PreferredTheme,
-    options: SetThemeOptions = {
-      cache: true,
-    }
-  ) {
-    // Heads up: this can throw an error if theme is invalid
-    _setTheme(theme);
-    if (!options.cache) return;
-
-    ThemeCache.set(theme);
-  }
+  const setTheme = React.useCallback(
+    (
+      theme: PreferredTheme,
+      options: SetThemeOptions = {
+        cache: true,
+      }
+    ) => {
+      _setTheme(theme);
+      if (!options.cache) return;
+      ThemeCache.set(theme);
+    },
+    []
+  );
 
   return (
     <PreferredThemeContext.Provider

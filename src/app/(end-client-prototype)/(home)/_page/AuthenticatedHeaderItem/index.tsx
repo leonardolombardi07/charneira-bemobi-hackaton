@@ -2,7 +2,6 @@
 
 import React from "react";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
@@ -10,11 +9,12 @@ import MUIMenu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Logout from "@mui/icons-material/Logout";
-import { useUser } from "@/app/_layout/UserProvider";
+import { useUserContext } from "@/app/_layout/UserProvider";
 import { signOut } from "@/modules/api/client";
+import Button from "@mui/material/Button";
 
 export default function AuthenticatedHeaderItem() {
-  const { user } = useUser();
+  const { user } = useUserContext();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -29,34 +29,32 @@ export default function AuthenticatedHeaderItem() {
 
   return (
     <React.Fragment>
-      <Tooltip title="Configurações">
-        <Box
+      <Button
+        variant="text"
+        onClick={onClick}
+        sx={{
+          display: "flex",
+          gap: 1,
+          alignItems: "center",
+        }}
+      >
+        <Avatar
+          sx={{ bgcolor: "primary.main" }}
+          // src={user?.photoURL || undefined}
+        >
+          {user?.displayName?.charAt(0) || ""}
+        </Avatar>
+
+        <Typography
+          variant="h6"
+          component="div"
           sx={{
-            display: "flex",
-            gap: 1,
-            alignItems: "center",
+            color: "text.primary",
           }}
         >
-          <IconButton onClick={onClick} size="small" sx={{ ml: 2 }}>
-            <Avatar
-              sx={{ bgcolor: "primary.main" }}
-              src={user.photoURL || undefined}
-            >
-              {user.displayName?.charAt(0) || ""}
-            </Avatar>
-          </IconButton>
-
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              color: "text.primary",
-            }}
-          >
-            {user.displayName}
-          </Typography>
-        </Box>
-      </Tooltip>
+          {user?.displayName}
+        </Typography>
+      </Button>
 
       <Menu anchorEl={anchorEl} open={open} onClose={onClose} />
     </React.Fragment>
@@ -110,9 +108,14 @@ function Menu({
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <MenuItem
-        onClick={() => {
-          signOut();
-          onClose();
+        onClick={async (event) => {
+          event.stopPropagation();
+          try {
+            await signOut();
+            onClose();
+          } catch (error: any) {
+            alert(error?.message);
+          }
         }}
       >
         <ListItemIcon>

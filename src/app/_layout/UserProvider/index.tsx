@@ -7,6 +7,7 @@ import React from "react";
 interface UserContext {
   user: User | null;
   isLoading: boolean;
+  setUser: (user: User | null) => void;
 }
 
 const UserContext = React.createContext<UserContext | null>(null);
@@ -19,10 +20,7 @@ function UserProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged({
       next: (user) => {
         setIsLoading(false);
-
-        if (user) {
-          setUser(user);
-        }
+        setUser(user);
       },
       error: (error) => {},
       complete: () => {
@@ -40,6 +38,7 @@ function UserProvider({ children }: { children: React.ReactNode }) {
       value={{
         user,
         isLoading,
+        setUser,
       }}
     >
       {children}

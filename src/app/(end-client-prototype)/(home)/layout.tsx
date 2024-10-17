@@ -7,19 +7,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { theme, setTheme } = usePreferredTheme();
   const [isLoadingTheme, setIsLoadingTheme] = React.useState(true);
 
-  React.useEffect(() => {
-    setTheme(
-      {
-        ...theme,
-        name: "vivo",
-        mode: "light",
-      },
-      {
-        cache: false,
-      }
-    );
-    setIsLoadingTheme(false);
-  }, [setTheme, theme]);
+  React.useEffect(
+    () => {
+      setTheme(
+        {
+          ...theme,
+          name: "vivo",
+          mode: "light",
+        },
+        {
+          cache: false,
+        }
+      );
+      setIsLoadingTheme(false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   if (isLoadingTheme) return null;
 

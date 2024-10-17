@@ -5,16 +5,13 @@ import Button from "@mui/material/Button";
 import AccountIcon from "@mui/icons-material/AccountCircle";
 import useDialog from "@/modules/hooks/useDialog";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import TextField from "@mui/material/TextField";
-import PasswordTextField from "@/components/inputs/PasswordTextField";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { signIn } from "@/modules/api/client";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import SignInForm from "../SignInForm";
+import SignUpForm from "../SignUpForm";
+import Box from "@mui/material/Box";
 
 export default function NotAuthenticatedHeaderItem() {
   const {
@@ -25,36 +22,9 @@ export default function NotAuthenticatedHeaderItem() {
 
   const fullScreen = useFullScreen();
 
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-
-  async function onFormSubmission(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (isLoading) return;
-
-    const formData = new FormData(event.currentTarget);
-    const email = String(formData.get("email"));
-    const password = String(formData.get("newPassword"));
-
-    if (!email) return emailRef.current?.focus();
-    if (!password) return passwordRef.current?.focus();
-
-    try {
-      setIsLoading(true);
-      await signIn("email/password", {
-        email,
-        password,
-      });
-      setError(null);
-      closeDialog();
-    } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const [tabsValue, setTabsValue] = React.useState<"signIn" | "signUp">(
+    "signIn"
+  );
 
   return (
     <React.Fragment>
@@ -66,15 +36,13 @@ export default function NotAuthenticatedHeaderItem() {
         }}
         onClick={openDialog}
       >
-        Login
+        Entrar
       </Button>
 
       <Dialog
         open={isDialogOpen}
         onClose={closeDialog}
         PaperProps={{
-          component: "form",
-          onSubmit: onFormSubmission,
           sx: {
             minWidth: {
               sm: 600,
@@ -83,51 +51,31 @@ export default function NotAuthenticatedHeaderItem() {
         }}
         fullScreen={fullScreen}
       >
-        <DialogTitle>Entrar</DialogTitle>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={tabsValue}
+            onChange={(event, newValue) => setTabsValue(newValue)}
+            indicatorColor="primary"
+            color="primary"
+            textColor="inherit"
+            variant="fullWidth"
+          >
+            <Tab value={"signIn"} label="Entrar" />
+            <Tab value={"signUp"} label="Cadastrar" />
+          </Tabs>
+        </Box>
 
-        <DialogContent>
-          <TextField
-            autoFocus
-            inputRef={emailRef}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                passwordRef.current?.focus();
-              }
-            }}
-          />
-
-          <PasswordTextField
-            required
-            id="newPassword"
-            name="newPassword"
-            label="Senha"
-            type="password"
-            fullWidth
-            sx={{ my: 3 }} // For some reason we need to add margin to the text field
-          />
-
-          {error && (
-            <Alert severity="error">
-              <AlertTitle>Erro</AlertTitle>
-              {error}
-            </Alert>
+        <Box
+          sx={{
+            p: 4,
+          }}
+        >
+          {tabsValue === "signIn" ? (
+            <SignInForm onSuccess={closeDialog} onCancel={closeDialog} />
+          ) : (
+            <SignUpForm onSuccess={closeDialog} onCancel={closeDialog} />
           )}
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={closeDialog}>Cancelar</Button>
-
-          <Button type="submit" color="primary" disabled={isLoading}>
-            {isLoading ? "Carregando" : "Entrar"}
-          </Button>
-        </DialogActions>
+        </Box>
       </Dialog>
     </React.Fragment>
   );
