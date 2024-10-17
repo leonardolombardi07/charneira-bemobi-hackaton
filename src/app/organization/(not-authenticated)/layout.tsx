@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Image from "next/image";
-import HappyGirlWithPaymentCardImage from "../../../../public/images/HappyGirlWithPaymentCard/HappyGirlWithPaymentCard.jpg";
+import HappyPeopleChattingWithPhonesImage from "../../../../public/images/HappyPeopleChattingWithPhones/HappyPeopleChattingWithPhones.jpg";
 import { APP_NAME } from "../constants";
 import { calculateSizesFromColumns } from "@/modules/image";
 
@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         <Image
-          src={HappyGirlWithPaymentCardImage}
+          src={HappyPeopleChattingWithPhonesImage}
           alt={`${APP_NAME} authentication cover`}
           fill={true}
           style={{

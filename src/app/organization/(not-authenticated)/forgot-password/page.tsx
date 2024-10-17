@@ -71,7 +71,7 @@ export default function Page() {
 
   return (
     <React.Fragment>
-      <LogoWithTitle sx={{ mb: 1 }} />
+      <LogoWithTitle sx={{ mb: 3 }} />
 
       <Typography component="h1" variant="h5">
         Esqueceu sua senha?
