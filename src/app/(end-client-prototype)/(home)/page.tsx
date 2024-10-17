@@ -1,3 +1,5 @@
+"use client";
+
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -7,16 +9,30 @@ import { OrganizationsCol } from "@/modules/api";
 import Button from "@mui/material/Button";
 import { PRODUCTS } from "./data";
 import Grid from "@mui/material/Grid";
-import Fab from "@mui/material/Fab";
-import AIIcon from "@mui/icons-material/Chat";
 import React from "react";
-import ConversationFab from "@/components/modules/conversation/ConversationFab";
-import N8NChat from "@/components/modules/conversation/N8N";
 import Header from "./_page/Header";
 import BottomTab from "./_page/BottomTab";
 import { BOTTOM_TAB_MENU_HEIGHT } from "./_page/constants";
+import ChatApp from "./_page/ChatApp";
+import { useUser } from "@/app/_layout/UserProvider";
+import { useLastCreatedOrganization } from "@/modules/api/client";
+import PageLoader from "@/components/feedback/PageLoader";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 export default function Page() {
+  const { user } = useUser();
+  const [lastCreatedOrg, isLoadingLastCreatedOrg, loadingLastCreatedOrgError] =
+    useLastCreatedOrganization();
+
+  if (loadingLastCreatedOrgError) {
+    return <Typography>Error: {loadingLastCreatedOrgError.message}</Typography>;
+  }
+
+  if (isLoadingLastCreatedOrg || !lastCreatedOrg) {
+    return <PageLoader />;
+  }
+
   return (
     <Box
       sx={{
@@ -34,6 +50,21 @@ export default function Page() {
         <Header />
         <Main />
       </Box>
+
+      <ChatApp
+        app_id={lastCreatedOrg?.id}
+        context={{
+          user: {
+            id: user.uid,
+            name: user.displayName || "",
+            photoURL: user.photoURL || "",
+
+            // TODO: put better fake data here
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+          },
+        }}
+      />
 
       <BottomTab
         sx={{
@@ -127,26 +158,7 @@ function Main() {
         </Grid>
       </Container>
 
-      {/* <ConversationFab
-        variant="extended"
-        color="primary"
-        sx={{
-          position: "fixed",
-          bottom: BOTTOM_TAB_MENU_HEIGHT + 18,
-          right: 18,
-          textTransform: "none",
-          textAlign: "left",
-          pl: 5,
-          pr: 3,
-          py: 4,
-          fontSize: 16,
-        }}
-      >
-        Olá! Eu sou o OmniChat. Posso te ajudar?
-        <AIIcon sx={{ ml: 2 }} />
-      </ConversationFab> */}
-
-      <N8NChat />
+      {/* <N8NChat /> */}
     </React.Fragment>
   );
 }
@@ -268,6 +280,19 @@ function ProductCard({
           </Button>
         </Box>
       </Box>
+    </Box>
+  );
+}
+
+function ErrorPage() {
+  return (
+    <Box>
+      <Alert severity="error">
+        <AlertTitle>Erro</AlertTitle>
+        Ocorreu algum erro. Esse protótipo funciona buscando dados da última
+        organização criada. Se você não criou nenhuma organização, crie uma para
+        ver o protótipo funcionando.
+      </Alert>
     </Box>
   );
 }

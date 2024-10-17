@@ -40,7 +40,12 @@ function getCollectionGroups() {
   const membersColGroup =
     getTypedCollectionGroup<OrganizationsCol.MembersSubCol.Doc>("members");
 
-  return { membersColGroup };
+  const conversationsColGroup =
+    getTypedCollectionGroup<OrganizationsCol.ConversationsSubCol.Doc>(
+      "conversations"
+    );
+
+  return { membersColGroup, conversationsColGroup };
 }
 
 export { getCollections, getCollectionGroups };

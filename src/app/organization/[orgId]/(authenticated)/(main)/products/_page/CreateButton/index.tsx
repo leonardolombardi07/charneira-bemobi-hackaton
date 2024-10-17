@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@mui/material/Button";
-import CreateDialog from "../CreateDialog";
+import CreateDialog from "./CreateDialog";
 
 export default function CreateButton() {
   const [open, setOpen] = React.useState(false);

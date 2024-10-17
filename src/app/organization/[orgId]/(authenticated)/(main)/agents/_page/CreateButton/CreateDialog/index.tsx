@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
-import CreateForm from "../CreateForm";
+import CreateForm from "./CreateForm";
 
 interface CreateDialogProps {
   open: boolean;
@@ -32,7 +32,7 @@ export default function CreateDialog({ open, closeDialog }: CreateDialogProps) {
             </IconButton>
 
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Adicionar Produto
+              Criar Agente
             </Typography>
           </Toolbar>
         </AppBar>

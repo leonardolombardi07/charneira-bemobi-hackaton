@@ -8,7 +8,6 @@ import { createAgent } from "@/modules/api/client";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Container from "@mui/material/Container";
-import Divider from "@mui/material/Divider";
 import { useParams } from "next/navigation";
 import { useTheme } from "@mui/material";
 
@@ -51,14 +50,6 @@ export default function CreateForm({ onCreate, onCancel }: CreateFormProps) {
         createdAt: Date.now(),
         updatedAt: Date.now(),
         instructions,
-        uiConfig: {
-          alignment: "left",
-          color: theme.palette.primary.main,
-          secondaryColor: theme.palette.secondary.main,
-          logoUrl: null,
-          verticalPadding: 0,
-          horizontalPadding: 0,
-        },
       });
       onCreate();
     } catch (error: any) {

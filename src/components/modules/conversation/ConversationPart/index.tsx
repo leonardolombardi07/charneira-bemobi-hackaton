@@ -60,8 +60,8 @@ function ConversationPartContainer({
     switch (authorType) {
       case "user":
         return {
-          bgcolor: "background.paper",
-          color: "text.primary",
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
         };
       case "bot":
         return {

@@ -6,22 +6,19 @@ import TextField from "@mui/material/TextField";
 import PasswordTextField from "@/components/inputs/PasswordTextField";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { signUp } from "@/modules/api/client";
+import { signIn } from "@/modules/api/client";
 import Box from "@mui/material/Box";
-import { getHumanReadableErrorMessage } from "../utils";
-import { useUserContext } from "@/app/_layout/UserProvider";
+import { getHumanReadableErrorMessage } from "../../../utils";
 
-interface SignUpFormProps {
+interface SignInFormProps {
   onSuccess: () => void;
   onCancel: () => void;
 }
 
-export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
-  const { setUser } = useUserContext();
-
-  const nameRef = React.useRef<HTMLInputElement>(null);
+export default function SignInForm({ onSuccess, onCancel }: SignInFormProps) {
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -30,24 +27,17 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
     if (isLoading) return;
 
     const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name"));
     const email = String(formData.get("email"));
     const password = String(formData.get("password"));
 
-    if (!name) return nameRef.current?.focus();
     if (!email) return emailRef.current?.focus();
     if (!password) return passwordRef.current?.focus();
 
     try {
       setIsLoading(true);
-      const { user } = await signUp("email/password", {
-        name,
+      await signIn("email/password", {
         email,
         password,
-      });
-      setUser({
-        ...user,
-        displayName: name,
       });
       setError(null);
       onSuccess();
@@ -62,21 +52,6 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
     <Box component={"form"} onSubmit={onFormSubmission}>
       <TextField
         autoFocus
-        inputRef={nameRef}
-        margin="normal"
-        required
-        fullWidth
-        id="name"
-        label="Nome"
-        name="name"
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            emailRef.current?.focus();
-          }
-        }}
-      />
-
-      <TextField
         inputRef={emailRef}
         margin="normal"
         required
@@ -131,7 +106,7 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
             minWidth: 160,
           }}
         >
-          {isLoading ? "Carregando" : "Cadastrar"}
+          {isLoading ? "Carregando" : "Entrar"}
         </Button>
       </Box>
     </Box>

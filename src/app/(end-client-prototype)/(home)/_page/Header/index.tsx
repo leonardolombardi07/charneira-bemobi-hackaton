@@ -11,8 +11,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import Container from "@mui/material/Container";
-import AuthenticatedHeaderItem from "../AuthenticatedHeaderItem";
-import NotAuthenticatedHeaderItem from "../NotAuthenticatedHeaderItem";
+import AuthenticatedHeaderItem from "./AuthenticatedHeaderItem";
+import NotAuthenticatedHeaderItem from "./NotAuthenticatedHeaderItem";
 import { useUserContext } from "@/app/_layout/UserProvider";
 
 interface HeaderProps {

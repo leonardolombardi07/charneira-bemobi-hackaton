@@ -1,5 +1,8 @@
 type UserId = string;
 type ConversationId = string;
+type OrganizationId = string;
+type ProductId = string;
+type AgentId = string;
 type ConversationPartId = string;
 type Timestamp = number;
 
@@ -15,7 +18,7 @@ export namespace UsersCol {
 
 export namespace OrganizationsCol {
   export interface Doc {
-    id: string;
+    id: OrganizationId;
     name: string;
     createdAt: Timestamp;
     updatedAt: Timestamp;
@@ -46,8 +49,8 @@ export namespace OrganizationsCol {
     }
 
     export interface Doc {
-      id: string;
-      orgId: string;
+      id: ProductId;
+      orgId: OrganizationId;
       name: string;
       description: string;
       createdAt: Timestamp;
@@ -61,7 +64,7 @@ export namespace OrganizationsCol {
   export namespace ConversationsSubCol {
     export interface Doc {
       id: ConversationId;
-      orgId: string;
+      orgId: OrganizationId;
       title: string;
       createdAt: Timestamp;
       updatedAt: Timestamp;
@@ -96,27 +99,17 @@ export namespace OrganizationsCol {
   }
 
   export namespace AgentsSubCol {
-    export interface UIConfig {
-      alignment: "left" | "right";
-      color: string;
-      logoUrl: string | null;
-      secondaryColor: string;
-      verticalPadding: number;
-      horizontalPadding: number;
-    }
-
     export interface Doc {
-      id: string;
-      orgId: string;
+      id: AgentId;
+      orgId: OrganizationId;
       name: string;
       description: string;
       instructions: string;
       createdAt: Timestamp;
       updatedAt: Timestamp;
-      uiConfig: UIConfig;
     }
   }
 }
 
 export type CollectionName = "users" | "organizations";
-export type CollectionGroupName = "members";
+export type CollectionGroupName = "members" | "conversations";

@@ -9,8 +9,8 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import SignInForm from "../SignInForm";
-import SignUpForm from "../SignUpForm";
+import SignInForm from "./SignInForm";
+import SignUpForm from "./SignUpForm";
 import Box from "@mui/material/Box";
 
 export default function NotAuthenticatedHeaderItem() {

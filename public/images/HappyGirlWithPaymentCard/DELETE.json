@@ -1,0 +1,671 @@
+{
+    "id": "94177966350648",
+    "conversation_message": {
+        "id": "message-2438055704",
+        "sent_at": 1727837675,
+        "created_at": 1727837675,
+        "show_created_at": true,
+        "message_style": 0,
+        "delivery_option": "summary",
+        "blocks": [
+            {
+                "type": "paragraph",
+                "text": "Boa noite!"
+            }
+        ],
+        "attachments": [],
+        "author": {
+            "type": "widget_user",
+            "avatar": {
+                "initials": "L",
+                "color": "e5e5e5",
+                "image_urls": {
+                    "square_25": null,
+                    "square_50": null,
+                    "square_128": null
+                },
+                "image_url": null,
+                "shape": "circle",
+                "label": "Profile image for LEONARDO"
+            },
+            "is_admin": false,
+            "is_self": true,
+            "name": "LEONARDO LOMBARDI",
+            "first_name": "LEONARDO",
+            "is_bot": false,
+            "id": "630cb1392b4ca0a42d08b742",
+            "initial": "L"
+        },
+        "seen_by_admin": "hide",
+        "reactions_reply": null,
+        "team_author": null,
+        "reply_type": "text",
+        "form": null,
+        "reply_options": [],
+        "pointer_selector": null,
+        "client_assigned_uuid": null,
+        "google_analytics_identifier": null,
+        "ux_style": null,
+        "metadata": null
+    },
+    "conversation_parts": [
+        {
+            "id": "22592165604",
+            "client_assigned_uuid": null,
+            "created_at": 1727837693,
+            "blocks": [
+                {
+                    "type": "html",
+                    "content": "<p>Olá, eu sou a Babi, a especialista virtual do Inter!<br><br>Em que posso te ajudar? 😊</p>\n"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "B",
+                    "color": "9401b2",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                    "shape": "circle",
+                    "label": "Profile image for Babi"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Babi",
+                "first_name": "Babi",
+                "is_bot": false,
+                "id": "2646305",
+                "initial": "B"
+            },
+            "seen_by_admin": "hide",
+            "part_type": "assignment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592165816",
+            "client_assigned_uuid": "56279C7C-93E3-4CE0-88CD-331118B90820",
+            "created_at": 1727837712,
+            "blocks": [
+                {
+                    "type": "paragraph",
+                    "text": "Quero fazer um pagamento no PIX crédito de 500 reais, mas meu saldo é insuficiente."
+                },
+                {
+                    "type": "paragraph",
+                    "text": "Já paguei minha fatura do cartão, então não deveria ter problemas"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "widget_user",
+                "avatar": {
+                    "initials": "L",
+                    "color": "e5e5e5",
+                    "image_urls": {
+                        "square_25": null,
+                        "square_50": null,
+                        "square_128": null
+                    },
+                    "image_url": null,
+                    "shape": "circle",
+                    "label": "Profile image for LEONARDO"
+                },
+                "is_admin": false,
+                "is_self": true,
+                "name": "LEONARDO LOMBARDI",
+                "first_name": "LEONARDO",
+                "is_bot": false,
+                "id": "630cb1392b4ca0a42d08b742",
+                "initial": "L"
+            },
+            "seen_by_admin": "hide",
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592165867",
+            "client_assigned_uuid": null,
+            "created_at": 1727837717,
+            "blocks": [
+                {
+                    "type": "html",
+                    "content": "<p>👉 Escolha um número:</p>\n\n<p><br>1. Informações gerais (fechamento, envio, vencimento) <br>2. Reenvio da fatura (2ª via) <br>3. Ativar/Desativar débito automático <br>4. Liberação do limite após pagamento <br>5. Pagamento da fatura (restante/atraso/antecipado) <br>6. Desconheço valor na fatura <br>7. Antecipar parcelas <br>8. Não consigo ver a fatura/\"Em processamento\" <br>9. Falar sobre outro assunto</p>\n"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "B",
+                    "color": "9401b2",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                    "shape": "circle",
+                    "label": "Profile image for Babi"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Babi",
+                "first_name": "Babi",
+                "is_bot": false,
+                "id": "2646305",
+                "initial": "B"
+            },
+            "seen_by_admin": "hide",
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592165929",
+            "client_assigned_uuid": "EF304584-EE46-45C2-944D-28F920CE3386",
+            "created_at": 1727837727,
+            "blocks": [
+                {
+                    "type": "paragraph",
+                    "text": "4"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "widget_user",
+                "avatar": {
+                    "initials": "L",
+                    "color": "e5e5e5",
+                    "image_urls": {
+                        "square_25": null,
+                        "square_50": null,
+                        "square_128": null
+                    },
+                    "image_url": null,
+                    "shape": "circle",
+                    "label": "Profile image for LEONARDO"
+                },
+                "is_admin": false,
+                "is_self": true,
+                "name": "LEONARDO LOMBARDI",
+                "first_name": "LEONARDO",
+                "is_bot": false,
+                "id": "630cb1392b4ca0a42d08b742",
+                "initial": "L"
+            },
+            "seen_by_admin": "hide",
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592165981",
+            "client_assigned_uuid": null,
+            "created_at": 1727837731,
+            "blocks": [
+                {
+                    "type": "html",
+                    "content": "<p>Me conta! Você realizou o pagamento da sua fatura:</p>\n"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "B",
+                    "color": "9401b2",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                    "shape": "circle",
+                    "label": "Profile image for Babi"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Babi",
+                "first_name": "Babi",
+                "is_bot": false,
+                "id": "2646305",
+                "initial": "B"
+            },
+            "seen_by_admin": "hide",
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592165991",
+            "client_assigned_uuid": null,
+            "created_at": 1727837732,
+            "blocks": [],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "B",
+                    "color": "9401b2",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                    "shape": "circle",
+                    "label": "Profile image for Babi"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Babi",
+                "first_name": "Babi",
+                "is_bot": false,
+                "id": "2646305",
+                "initial": "B"
+            },
+            "seen_by_admin": "hide",
+            "part_type": "quick_reply",
+            "event_data": {},
+            "reply_options": [
+                {
+                    "uuid": "8f3d5860-c7ad-4370-b6ea-b6c936220d7e",
+                    "text": "Diretamente no Inter",
+                    "type": "quick_reply"
+                },
+                {
+                    "uuid": "3761b698-a557-477b-ab0a-370f874d98af",
+                    "text": "Através de outro banco",
+                    "type": "quick_reply"
+                },
+                {
+                    "uuid": "fc58bfd1-c93a-46ca-b9b0-4389b84cf6c9",
+                    "text": "Pagamento por PIX",
+                    "type": "quick_reply"
+                }
+            ],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592166026",
+            "client_assigned_uuid": "3B301579-AF03-4D35-9828-4D5853A15B4C",
+            "created_at": 1727837736,
+            "blocks": [
+                {
+                    "type": "paragraph",
+                    "text": "Diretamente no Inter"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "widget_user",
+                "avatar": {
+                    "initials": "L",
+                    "color": "e5e5e5",
+                    "image_urls": {
+                        "square_25": null,
+                        "square_50": null,
+                        "square_128": null
+                    },
+                    "image_url": null,
+                    "shape": "circle",
+                    "label": "Profile image for LEONARDO"
+                },
+                "is_admin": false,
+                "is_self": true,
+                "name": "LEONARDO LOMBARDI",
+                "first_name": "LEONARDO",
+                "is_bot": false,
+                "id": "630cb1392b4ca0a42d08b742",
+                "initial": "L"
+            },
+            "seen_by_admin": "seen",
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592166057",
+            "client_assigned_uuid": null,
+            "created_at": 1727837740,
+            "blocks": [
+                {
+                    "type": "html",
+                    "content": "<p><b>Com a conta Inter, o pagamento e o limite serão reconhecidos e liberados em até 24h!</b> Você pode confirmar o pagamento da sua fatura acessando a aba Cartões no Super App.</p>\n\n<p><br>❗️Se o pagamento foi realizado pelo Inter na sexta-feira (após 20h) ou no fim de semana e consta no extrato, consideramos que o mesmo foi identificado e você deve aguardar até 2 dias úteis.</p>\n\n<p><br>❗️Se você receber um lembrete para pagar a fatura e já tiver realizado, é só desconsiderar.</p>\n\n<p><br>💡 <b>Precisa do seu limite de crédito disponível de imediato?</b> É só <a href=\"bancointer://meiosPagamento/rota/LINHA_DO_TEMPO_FATURA\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Clicar aqui!</a> Os pagamentos serão compensados no mesmo dia se realizados até às 20h.</p>\n"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "B",
+                    "color": "9401b2",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                    "shape": "circle",
+                    "label": "Profile image for Babi"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Babi",
+                "first_name": "Babi",
+                "is_bot": false,
+                "id": "2646305",
+                "initial": "B"
+            },
+            "seen_by_admin": "seen",
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592210341",
+            "client_assigned_uuid": null,
+            "created_at": 1727845001,
+            "blocks": [
+                {
+                    "type": "paragraph",
+                    "text": "Como você avalia este atendimento?"
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "O",
+                    "color": "286efa",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png",
+                        "square_50": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png",
+                        "square_128": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png",
+                    "shape": "squircle",
+                    "label": "Profile image for Operator"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Operator",
+                "first_name": "Operator",
+                "is_bot": true,
+                "id": "1769464",
+                "initial": "O"
+            },
+            "seen_by_admin": null,
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        },
+        {
+            "id": "22592210345",
+            "client_assigned_uuid": null,
+            "created_at": 1727845002,
+            "blocks": [
+                {
+                    "type": "conversationRating",
+                    "text": "<a href=\"https://app.intercom.com/ratings?token=fecf6fe0-f319-47c4-844e-969cf6a1330c\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">Classifique sua conversa</a>",
+                    "url": "https://app.intercom.com/ratings?token=fecf6fe0-f319-47c4-844e-969cf6a1330c",
+                    "options": [
+                        {
+                            "index": 1,
+                            "emoji": "😠",
+                            "unicode": "1f620"
+                        },
+                        {
+                            "index": 2,
+                            "emoji": "🙁",
+                            "unicode": "1f615"
+                        },
+                        {
+                            "index": 3,
+                            "emoji": "😐",
+                            "unicode": "1f610"
+                        },
+                        {
+                            "index": 4,
+                            "emoji": "😃",
+                            "unicode": "1f603"
+                        },
+                        {
+                            "index": 5,
+                            "emoji": "🤩",
+                            "unicode": "1f929"
+                        }
+                    ],
+                    "uuid": "fecf6fe0-f319-47c4-844e-969cf6a1330c",
+                    "block_rating": false
+                }
+            ],
+            "attachments": [],
+            "author": {
+                "type": "Admin",
+                "avatar": {
+                    "initials": "O",
+                    "color": "286efa",
+                    "image_urls": {
+                        "square_25": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png",
+                        "square_50": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png",
+                        "square_128": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png"
+                    },
+                    "image_url": "https://static.intercomassets.com/assets/default-avatars/operator/128-10ee062f48e0940906c058aecb8a44c7a02acfc5e35d0fc9a30981611ace0c75.png",
+                    "shape": "squircle",
+                    "label": "Profile image for Operator"
+                },
+                "is_admin": true,
+                "is_self": false,
+                "name": "Operator",
+                "first_name": "Operator",
+                "is_bot": true,
+                "id": "1769464",
+                "initial": "O"
+            },
+            "seen_by_admin": null,
+            "part_type": "comment",
+            "event_data": {},
+            "reply_options": [],
+            "form": null,
+            "mood": null,
+            "sources": null,
+            "cmr": false,
+            "ux_style": null,
+            "metadata": null
+        }
+    ],
+    "read": true,
+    "read_at": 1727875394,
+    "updated_at": 1727845002,
+    "dismissed": false,
+    "last_participating_admin": {
+        "id": "2646305",
+        "type": "Admin",
+        "avatar": {
+            "initials": "B",
+            "color": "9401b2",
+            "image_urls": {
+                "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+            },
+            "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+            "shape": "circle",
+            "label": "Profile image for Babi"
+        },
+        "name": null,
+        "is_admin": true,
+        "first_name": "Babi",
+        "last_active_at": 1728347760,
+        "is_active": false,
+        "is_bot": false,
+        "is_self": false,
+        "intro": null,
+        "job_title": null,
+        "location": {
+            "city_name": "Rio de Janeiro",
+            "country_name": "Brazil",
+            "country_code": "BR",
+            "timezone": "America/Sao_Paulo",
+            "timezone_offset": -10800
+        },
+        "social_accounts": [],
+        "initial": "B",
+        "calendar_url": null
+    },
+    "ux_style": "assigned",
+    "participants": [],
+    "intercom_link_solution": "live-chat",
+    "operator_simplified_conditions": [],
+    "decision_state_updated_at": null,
+    "decision_state_version": 0,
+    "composer_state": {
+        "visible": false,
+        "version": 2,
+        "self_serve_suggestions_enabled": false,
+        "custom_bot_active": true,
+        "workflow_active": true,
+        "placeholder": "Envie uma mensagem..."
+    },
+    "analytics_metadata": {
+        "custom_bot_id": 33806039
+    },
+    "archived": true,
+    "prevent_end_user_replies": true,
+    "prevent_end_user_replies_timestamp": null,
+    "inbound_conversations_disabled": false,
+    "notification_status": "unknown",
+    "current_channel": "ios",
+    "state": "state_closed",
+    "is_inbound": true,
+    "ticket": null,
+    "eligible_for_recent_conversations": true,
+    "exclude_from_conversation_list": false,
+    "owner_id": "630cb1392b4ca0a42d08b742",
+    "header": {
+        "use_bot_header": false,
+        "background_color": "#ff7a00",
+        "display_active_indicator": false,
+        "expanded": {
+            "title": "Babi",
+            "avatar_details": {
+                "avatar_type": "layered_bubbles",
+                "avatars": [
+                    {
+                        "initials": "B",
+                        "color": "9401b2",
+                        "image_urls": {
+                            "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                            "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                            "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                        },
+                        "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "shape": "circle",
+                        "label": "Profile image for Babi"
+                    }
+                ]
+            },
+            "body": [
+                {
+                    "text": "Ativo(a) nos últimos 15min",
+                    "style": "h1"
+                },
+                {
+                    "text": "Rio de Janeiro, Brazil",
+                    "style": "paragraph"
+                }
+            ],
+            "social_accounts": [],
+            "calendar_url": null,
+            "footer": []
+        },
+        "collapsed": {
+            "title": "Babi",
+            "subtitle": "Ativo(a) nos últimos 15min",
+            "avatar_details": {
+                "avatar_type": "layered_bubbles",
+                "avatars": [
+                    {
+                        "initials": "B",
+                        "color": "9401b2",
+                        "image_urls": {
+                            "square_25": "https://static.intercomassets.com/avatars/2646305/square_25/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                            "square_50": "https://static.intercomassets.com/avatars/2646305/square_50/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                            "square_128": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png"
+                        },
+                        "image_url": "https://static.intercomassets.com/avatars/2646305/square_128/Captura_de_Tela_2023-08-04_a%CC%80s_15.47.58-1721141923.png",
+                        "shape": "circle",
+                        "label": "Profile image for Babi"
+                    }
+                ]
+            }
+        },
+        "hide_greeting": false
+    },
+    "footer_notice": null,
+    "ui_flags": {
+        "show_last_part_meta": false
+    },
+    "conversation_ended_button": null
+}

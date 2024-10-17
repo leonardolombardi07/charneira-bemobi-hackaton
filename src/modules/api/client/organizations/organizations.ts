@@ -1,6 +1,8 @@
-import { getDocs } from "firebase/firestore";
-import { getCollectionGroups } from "../utils";
+import { getDocs, orderBy, query } from "firebase/firestore";
+import { getCollectionGroups, getCollections } from "../utils";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
+const { organizationsCol } = getCollections();
 const { membersColGroup } = getCollectionGroups();
 
 async function findUserOrgId(uid: string) {
@@ -14,4 +16,11 @@ async function findUserOrgId(uid: string) {
   return member.orgId;
 }
 
-export { findUserOrgId };
+function useLastCreatedOrganization() {
+  const [orgs, isLoading, error] = useCollectionData(
+    query(organizationsCol, orderBy("createdAt", "desc"))
+  );
+  return [orgs ? orgs[0] : undefined, isLoading, error] as const;
+}
+
+export { findUserOrgId, useLastCreatedOrganization };

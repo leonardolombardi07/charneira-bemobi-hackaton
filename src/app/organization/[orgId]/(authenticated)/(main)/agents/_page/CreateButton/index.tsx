@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@mui/material/Button";
-import CreateDialog from "../CreateDialog";
+import CreateDialog from "./CreateDialog";
 import { useParams } from "next/navigation";
 import { useOrgAgents } from "@/modules/api/client";
 
