@@ -3,9 +3,13 @@
 import * as React from "react";
 import { THEME_MODES, THEME_NAMES, PreferredTheme } from "./constants";
 
+interface SetThemeOptions {
+  cache?: boolean;
+}
+
 interface ThemeProviderContextValue {
   theme: PreferredTheme;
-  setTheme: (theme: PreferredTheme) => void;
+  setTheme: (theme: PreferredTheme, options?: SetThemeOptions) => void;
 }
 
 const PreferredThemeContext =
@@ -14,9 +18,16 @@ const PreferredThemeContext =
 function PreferredThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, _setTheme] = React.useState<PreferredTheme>(ThemeCache.get());
 
-  function setTheme(theme: PreferredTheme) {
+  function setTheme(
+    theme: PreferredTheme,
+    options: SetThemeOptions = {
+      cache: true,
+    }
+  ) {
     // Heads up: this can throw an error if theme is invalid
     _setTheme(theme);
+    if (!options.cache) return;
+
     ThemeCache.set(theme);
   }
 

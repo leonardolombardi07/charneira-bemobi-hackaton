@@ -1,19 +1,19 @@
 "use client";
 
 import React from "react";
-import Logo from "@/components/elements/Logo";
+import VivoLogo from "../../../_components/VivoLogo";
 import Box, { BoxProps } from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import SearchIcon from "@mui/icons-material/Search";
-import AccountIcon from "@mui/icons-material/AccountCircle";
 import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import AlfredAvatar from "../../../../../../public/images/AlfredAvatar/AlfredAvatar.webp";
+import AuthenticatedHeaderItem from "../AuthenticatedHeaderItem";
+import NotAuthenticatedHeaderItem from "../NotAuthenticatedHeaderItem";
+import { useUserContext } from "@/app/_layout/UserProvider";
 
 interface HeaderProps {
   sx?: BoxProps["sx"];
@@ -43,6 +43,9 @@ export default function Header({ sx }: HeaderProps) {
 }
 
 function FirstRow() {
+  const { user } = useUserContext();
+  const isAuthenticatedUser = user !== null;
+
   return (
     <Box
       sx={{
@@ -52,7 +55,7 @@ function FirstRow() {
         textDecoration: "none",
       }}
     >
-      <Logo size="small" />
+      <VivoLogo size="small" />
 
       <Box
         sx={{
@@ -109,42 +112,11 @@ function FirstRow() {
           Buscar
         </Button>
 
-        <Box
-          sx={{
-            display: "flex",
-            gap: 1,
-            alignItems: "center",
-          }}
-        >
-          <Avatar
-            sx={{ bgcolor: "primary.main" }}
-            alt="Alfred"
-            // @ts-ignore
-            src={AlfredAvatar}
-          >
-            A
-          </Avatar>
-
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              color: "text.primary",
-            }}
-          >
-            Alfred
-          </Typography>
-        </Box>
-
-        {/* <Button
-          variant="text"
-          startIcon={<AccountIcon />}
-          sx={{
-            color: "text.secondary",
-          }}
-        >
-          Login
-        </Button> */}
+        {isAuthenticatedUser ? (
+          <AuthenticatedHeaderItem />
+        ) : (
+          <NotAuthenticatedHeaderItem />
+        )}
 
         <Box
           sx={{
