@@ -60,7 +60,7 @@ export type ChatAppProviderProps = ChatAppInput & {
 };
 
 function generateRandomId() {
-  return Math.random().toString(36).substring(16);
+  return Math.random().toString(36).substring(7);
 }
 
 function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {

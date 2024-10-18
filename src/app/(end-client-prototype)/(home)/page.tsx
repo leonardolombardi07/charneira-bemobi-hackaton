@@ -52,7 +52,7 @@ export default function Page() {
       </Box>
 
       <ChatApp
-        app_id={lastCreatedOrg?.id}
+        app_id={lastCreatedOrg.id}
         context={{
           user: {
             id: user?.uid || "1",
