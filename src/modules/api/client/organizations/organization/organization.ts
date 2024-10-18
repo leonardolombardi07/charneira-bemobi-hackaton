@@ -1,15 +1,16 @@
 import { doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { OrganizationsCol } from "@/modules/api/types";
 import { getCollectionGroups, getCollections } from "../../utils";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
 const { organizationsCol } = getCollections();
 const { membersColGroup } = getCollectionGroups();
 
 type CreateOrganizationData = Omit<OrganizationsCol.Doc, "id">;
 
-function createOrganization(data: CreateOrganizationData) {
+async function createOrganization(data: CreateOrganizationData) {
   const oDoc = doc(organizationsCol);
-  setDoc(oDoc, { id: oDoc.id, ...data }, { merge: true });
+  await setDoc(oDoc, { id: oDoc.id, ...data }, { merge: true });
   return {
     id: oDoc.id,
   };
@@ -25,4 +26,8 @@ async function getUserOrgId(uid: string) {
   return user.orgId;
 }
 
-export { createOrganization, getUserOrgId };
+function useOrganizationById(orgId: string) {
+  return useDocumentData(doc(organizationsCol, orgId));
+}
+
+export { createOrganization, getUserOrgId, useOrganizationById };

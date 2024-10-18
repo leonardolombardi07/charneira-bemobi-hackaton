@@ -9,7 +9,12 @@ import GoogleGenAI, {
   SafetySetting,
   StartChatParams,
 } from "@/modules/google-generative-ai";
-import { useOrgAgents, useOrgProducts } from "@/modules/api/client";
+import {
+  createConversationParts,
+  useOrgAgents,
+  useOrganizationById,
+  useOrgProducts,
+} from "@/modules/api/client";
 
 /* IMPORTANT INFO:
 Leo: This is a bit confusing code. I was having ideas while coding and implementing them.
@@ -53,19 +58,31 @@ export type ChatAppProviderProps = ChatAppInput & {
   children: React.ReactNode;
 };
 
+function generateRandomId() {
+  return Math.random().toString(36).substring(7);
+}
+
 function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
+  const conversationId = React.useRef<string>(generateRandomId());
+
   const [parts, setParts] = React.useState<
     OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc[]
   >([]);
+
+  const [organization, isLoadingOrganization, loadingOrganizationError] =
+    useOrganizationById(app_id);
 
   const [agent, isLoadingAgent, loadingAgentError] = useChatAgent({ app_id });
   const [products = [], isLoadingProducts, loadingProductsError] =
     useOrgProducts(app_id);
 
   const initializationStatus =
-    isLoadingAgent || isLoadingProducts ? "loading" : "idle";
+    isLoadingAgent || isLoadingProducts || isLoadingOrganization
+      ? "loading"
+      : "idle";
 
-  const initializationError = loadingAgentError || loadingProductsError;
+  const initializationError =
+    loadingAgentError || loadingProductsError || loadingOrganizationError;
 
   const [sendStatus, setSendLoadingStatus] = React.useState<
     "idle" | "sending_user_message" | "loading_ai_response"
@@ -82,8 +99,21 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
 
       // TODO
       // Leo: Of course we would fallback to other chat interactions in this case... think about this later
+
+      if (initializationStatus === "loading") {
+        return setSendError(
+          "Os dados estão sendo inicializados... Aguarde um momento."
+        );
+      }
+
+      if (loadingProductsError) {
+        return setSendError(
+          "Algum erro ocorreu ao carregar os dados necessários para essa conversa."
+        );
+      }
+
+      if (!organization) return setSendError("Organização não encontrada");
       if (!agent) return setSendError("Agente não encontrado");
-      if (loadingProductsError) return setSendError("Produtos não encontrados");
 
       setSendError(null);
 
@@ -114,7 +144,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           updatedAt: Date.now(),
           notifiedAt: Date.now(),
           author: {
-            id: `gemini-1.5-flash`,
+            id: agent.id,
             name: agent.name,
             type: "bot",
             photoURL: "",
@@ -127,8 +157,9 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
 
         const agentAsModel = getAgentAsModel({
           systemInstruction: getSystemInstructionFromContext({
+            organization,
             agent,
-            user,
+            context,
             products,
           }),
           safetySettings: DEFAULT_SAFE_SETTINGS,
@@ -152,6 +183,11 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           };
           setParts((prev) => [...prev.slice(0, prev.length - 1), aiPart]);
         }
+
+        await createConversationParts(organization.id, conversationId.current, [
+          userPart,
+          aiPart,
+        ]);
       } catch (error: any) {
         setSendError(error?.message || "Erro ao enviar mensagem");
       } finally {
@@ -168,6 +204,8 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
       parts,
       loadingProductsError,
       products,
+      organization,
+      initializationStatus,
     ]
   );
 
@@ -211,29 +249,35 @@ function getAgentAsModel(startChatParams: StartChatParams) {
 }
 
 function getSystemInstructionFromContext({
+  organization,
   agent,
-  user,
+  context,
   products,
 }: {
+  organization: OrganizationsCol.Doc;
   agent: OrganizationsCol.AgentsSubCol.Doc;
-  user: UsersCol.Doc;
+  context: AppContext;
   products: OrganizationsCol.ProductsSubCol.Doc[];
 }): Content {
   const AGENT_PROMPT = `Você é um agente de atendimento chamado "${agent.name}", com a seguinte descrição: "${agent.description}".
         Instruções adicionais para você: ${agent.instructions}`;
 
+  const ORG_PROMPT = `Você está conversando com um cliente da organização "${organization.name}".`;
+
   const PRODUCTS_PROMPT = `Você tem acesso aos seguintes produtos (enviados em formato JSON) e deve se limitar a falar apenas sobre eles: ${JSON.stringify(
     products
-  )}.`;
+  )}. Se não souber sobre um produto, você pode dizer que não tem informações sobre ele.`;
 
-  const USER_PROMPT = `O nome do usuário com quem você está conversando é "${user.name}". Certifique-se de usar esse nome em suas respostas para criar uma interação mais pessoal.`;
+  const user = getUserFromAppContext(context);
+  const CONTEXT_PROMPT = `O nome do usuário com quem você está conversando é "${user.name}". Certifique-se de usar esse nome em suas respostas para criar uma interação mais pessoal.`;
 
   return {
     role: "system",
     parts: [
       { text: AGENT_PROMPT },
+      { text: ORG_PROMPT },
       { text: PRODUCTS_PROMPT },
-      { text: USER_PROMPT },
+      { text: CONTEXT_PROMPT },
     ],
   };
 }

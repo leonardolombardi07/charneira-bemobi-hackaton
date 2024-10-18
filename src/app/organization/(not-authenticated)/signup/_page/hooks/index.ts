@@ -17,6 +17,7 @@ function useSignUpWithForm() {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isLoading) return;
 
     const formData = new FormData(event.currentTarget);
 
@@ -33,7 +34,9 @@ function useSignUpWithForm() {
     setIsLoading(true);
     setSubmitError(null);
     try {
-      const { id: orgId } = createOrganization({
+      // We need to create the organization first, so we can sign up the user
+      // it must be sequential, otherwise firebase can create the user but the organization creation can fail
+      const { id: orgId } = await createOrganization({
         name: orgName,
         createdAt: Date.now(),
         updatedAt: Date.now(),

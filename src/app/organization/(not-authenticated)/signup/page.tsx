@@ -48,9 +48,9 @@ export default function Page() {
           margin="normal"
           required
           fullWidth
-          id="name"
+          id="orgName"
+          name="orgName"
           label="Nome da Empresa"
-          name="name"
           autoFocus
           onKeyDown={(event) => {
             if (event.key === "Enter") {

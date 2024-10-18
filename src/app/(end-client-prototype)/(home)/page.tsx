@@ -14,23 +14,23 @@ import Header from "./_page/Header";
 import BottomTab from "./_page/BottomTab";
 import { BOTTOM_TAB_MENU_HEIGHT } from "./_page/constants";
 import ChatApp from "./_page/ChatApp";
-import { useUser } from "@/app/_layout/UserProvider";
+import { useUserContext } from "@/app/_layout/UserProvider";
 import { useLastCreatedOrganization } from "@/modules/api/client";
 import PageLoader from "@/components/feedback/PageLoader";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
 export default function Page() {
-  const { user } = useUser();
+  const { user } = useUserContext();
   const [lastCreatedOrg, isLoadingLastCreatedOrg, loadingLastCreatedOrgError] =
     useLastCreatedOrganization();
 
-  if (loadingLastCreatedOrgError) {
-    return <Typography>Error: {loadingLastCreatedOrgError.message}</Typography>;
+  if (isLoadingLastCreatedOrg) {
+    return <PageLoader />;
   }
 
-  if (isLoadingLastCreatedOrg || !lastCreatedOrg) {
-    return <PageLoader />;
+  if (loadingLastCreatedOrgError || !lastCreatedOrg) {
+    return <ErrorPage />;
   }
 
   return (
@@ -55,9 +55,9 @@ export default function Page() {
         app_id={lastCreatedOrg?.id}
         context={{
           user: {
-            id: user.uid,
-            name: user.displayName || "",
-            photoURL: user.photoURL || "",
+            id: user?.uid || "1",
+            name: user?.displayName || `Cliente da ${lastCreatedOrg.name}`,
+            photoURL: user?.photoURL || "",
 
             // TODO: put better fake data here
             createdAt: Date.now(),

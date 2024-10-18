@@ -104,7 +104,7 @@ function ConversationPopper({ anchorEl, close }: ConversationPopperProps) {
 
   return (
     <Popper
-      open
+      open={Boolean(anchorEl)}
       anchorEl={anchorEl}
       transition
       placement="top-end"
@@ -119,64 +119,66 @@ function ConversationPopper({ anchorEl, close }: ConversationPopperProps) {
     >
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={350}>
-          <Paper
-            sx={{
-              width: {
-                xs: "100vw",
-                sm: "400px",
-              },
-              height: {
-                xs: "calc(100vh - 56px)",
-                sm: "min(704px, 100% - 104px)",
-              },
-              maxHeight: "704px",
-              display: "flex",
-              flexDirection: "column",
-              position: "relative",
-            }}
-          >
-            <Header
-              onClose={close}
-              sx={{
-                position: "sticky",
-                top: 0,
-                borderTopLeftRadius: "10px",
-                borderTopRightRadius: "10px",
-              }}
-            />
-
+          <Paper>
             <Box
               sx={{
-                flex: 1,
-                overflowY: "auto",
-                p: 2,
-                marginBottom: "70px",
+                width: {
+                  xs: "100vw",
+                  sm: "400px",
+                },
+                height: {
+                  xs: "calc(100vh - 56px)",
+                  sm: "min(704px, calc(100vh - 150px))",
+                },
+                maxHeight: "704px",
                 display: "flex",
-
-                // Make sure the scroll always starts at the bottom
-                flexDirection: "column-reverse",
+                flexDirection: "column",
+                position: "relative",
               }}
-              ref={partsListRef}
             >
-              {someError && (
-                <Alert severity="error" sx={{ mt: 2 }}>
-                  <AlertTitle>Erro</AlertTitle>
-                  {someError}
-                </Alert>
-              )}
+              <Header
+                onClose={close}
+                sx={{
+                  position: "sticky",
+                  top: 0,
+                  borderTopLeftRadius: "10px",
+                  borderTopRightRadius: "10px",
+                }}
+              />
 
-              {parts.map((p) => (
-                <ConversationPart
-                  key={p.id}
-                  part={p}
-                  part_type={p.type}
-                  onReply={() => {}}
-                />
-              ))}
+              <Box
+                sx={{
+                  flex: 1,
+                  overflowY: "auto",
+                  p: 2,
+                  marginBottom: "70px",
+                  display: "flex",
 
-              <Box sx={{ flexGrow: 1 }} />
+                  // Make sure the scroll always starts at the bottom
+                  flexDirection: "column-reverse",
+                }}
+                ref={partsListRef}
+              >
+                {someError && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    <AlertTitle>Erro</AlertTitle>
+                    {someError}
+                  </Alert>
+                )}
 
-              <Send />
+                {parts.toReversed().map((p) => (
+                  <ConversationPart
+                    key={p.id}
+                    part={p}
+                    part_type={p.type}
+                    onReply={() => {}}
+                  />
+                ))}
+
+                <Box sx={{ flexGrow: 1 }} />
+
+                <Send />
+              </Box>
             </Box>
           </Paper>
         </Fade>

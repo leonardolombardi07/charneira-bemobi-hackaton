@@ -7,12 +7,12 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { ConversationsCol } from "@/modules/api";
+import { OrganizationsCol } from "@/modules/api";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 
 interface ConversationListProps {
-  data: ConversationsCol.Doc[];
+  data: OrganizationsCol.ConversationsSubCol.Doc[];
   isLoading: boolean;
   error: Error | undefined | null;
 }
@@ -55,7 +55,7 @@ export default function ConversationsList({
 }
 
 interface ConversationListItemProps {
-  conversation: ConversationsCol.Doc;
+  conversation: OrganizationsCol.ConversationsSubCol.Doc;
 }
 
 function ConversationListItem({ conversation }: ConversationListItemProps) {

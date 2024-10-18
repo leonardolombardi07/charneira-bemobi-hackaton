@@ -37,7 +37,7 @@ export default function CreateForm({ onCreate, onCancel }: CreateFormProps) {
     const description = String(formData.get("description"));
 
     const instructions = String(formData.get("instructions"));
-    if (!instructions) return setError(`O instructions não pode ser vazio.`);
+    if (!instructions) return setError(`As instruções não podem estar vazias.`);
 
     setIsLoading(true);
     setError(null);
