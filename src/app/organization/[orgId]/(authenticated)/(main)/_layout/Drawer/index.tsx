@@ -17,6 +17,11 @@ import ConversationIcon from "@mui/icons-material/Chat";
 import AgentIcon from "@mui/icons-material/SmartToy";
 import ProfileIcon from "@mui/icons-material/AccountCircle";
 import { usePathname, useRouter } from "next/navigation";
+import { APP_NAME } from "@/app/organization/constants";
+import Logo from "@/components/elements/Logo";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const PATHNAME = {
   HOME: "products",
@@ -101,7 +106,25 @@ function DrawerContent({ closeDrawer }: { closeDrawer: () => void }) {
 
   return (
     <React.Fragment>
-      <Toolbar />
+      <Toolbar
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          rowGap: 2,
+          py: 0.5,
+        }}
+      >
+        <IconButton
+          color="inherit"
+          edge="start"
+          onClick={closeDrawer}
+          sx={{ display: { sm: "none" }, mr: 2 }}
+        >
+          <CloseIcon />
+        </IconButton>
+
+        <LogoWithTitle />
+      </Toolbar>
       <Divider />
 
       <List>
@@ -162,5 +185,33 @@ function DrawerContent({ closeDrawer }: { closeDrawer: () => void }) {
         </ListItem>
       </List>
     </React.Fragment>
+  );
+}
+
+function LogoWithTitle() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        color: "inherit",
+        textDecoration: "none",
+      }}
+    >
+      <Logo size="small" />
+      <Typography
+        variant="h6"
+        component="h2"
+        color={(t) => {
+          const isDark = t.palette.mode === "dark";
+          return isDark ? "secondary.main" : "inherit";
+        }}
+        sx={{
+          ml: "3px",
+        }}
+      >
+        {APP_NAME}™
+      </Typography>
+    </Box>
   );
 }

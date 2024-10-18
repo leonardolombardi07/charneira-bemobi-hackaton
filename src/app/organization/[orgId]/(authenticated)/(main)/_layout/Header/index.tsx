@@ -3,14 +3,13 @@
 import React from "react";
 import AppBar, { AppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Logo from "@/components/elements/Logo";
-import { APP_NAME } from "@/app/organization/constants";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import { DRAWER_WIDTH } from "../constants";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useOrganizationById } from "@/modules/api/client";
+import { useParams } from "next/navigation";
 
 export const HEADER_HEIGHT = 64;
 
@@ -20,6 +19,12 @@ interface HeaderProps {
 }
 
 export default function Header({ sx, onDrawerToggle }: HeaderProps) {
+  const params = useParams();
+  const orgId = params.orgId as string;
+
+  // TODO: handle loading and error states
+  const [organization, isLoading, error] = useOrganizationById(orgId);
+
   return (
     <AppBar
       component="nav"
@@ -55,19 +60,18 @@ export default function Header({ sx, onDrawerToggle }: HeaderProps) {
             textDecoration: "none",
           }}
         >
-          <Logo size="small" />
           <Typography
             variant="h6"
             component="h2"
-            color={(t) => {
-              const isDark = t.palette.mode === "dark";
-              return isDark ? "secondary.main" : "inherit";
-            }}
+            // color={(t) => {
+            //   const isDark = t.palette.mode === "dark";
+            //   return isDark ? "secondary.main" : "inherit";
+            // }}
             sx={{
               ml: "3px",
             }}
           >
-            {APP_NAME}™
+            {organization?.name}
           </Typography>
         </Box>
       </Toolbar>

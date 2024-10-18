@@ -1,9 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { DataItem } from "./types";
-import { Recursive } from "next/font/google";
+import { Row } from "./types";
 
-type ColumnWithTypedField = GridColDef<DataItem> & {
-  field: keyof DataItem;
+type ColumnWithTypedField = GridColDef<Row> & {
+  field: keyof Row;
 };
 
 export const COLUMNS: ColumnWithTypedField[] = [

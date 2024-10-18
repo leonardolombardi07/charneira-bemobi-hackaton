@@ -5,32 +5,36 @@ import Button from "@mui/material/Button";
 import CreateDialog from "./CreateDialog";
 import { useParams } from "next/navigation";
 import { useOrgAgents } from "@/modules/api/client";
+import useDialog from "@/modules/hooks/useDialog";
+import UpgradeDialog from "./UpgradeDialog";
 
 export default function CreateButton() {
-  const [open, setOpen] = React.useState(false);
   const params = useParams();
 
   // TODO: handle loading and error states
   const [data = [], isLoading, error] = useOrgAgents(params.orgId as string);
 
-  function openDialog() {
-    setOpen(true);
-  }
+  const {
+    isOpen: isCreateDialogOpen,
+    open: openCreateDialog,
+    close: closeCreateDialog,
+  } = useDialog();
 
-  function closeDialog() {
-    setOpen(false);
-  }
+  const {
+    isOpen: isUpgradeDialogOpen,
+    open: openUpgradeDialog,
+    close: closeUpgradeDialog,
+  } = useDialog();
 
   const disabled = data.length > 0;
 
   function onCreate() {
     if (disabled) {
-      return alert(
-        "Você já possui um agente cadastrado. Atualmente é possível ter apenas um agente por organização."
-      );
+      openUpgradeDialog();
+      return;
     }
 
-    openDialog();
+    openCreateDialog();
   }
 
   return (
@@ -39,7 +43,12 @@ export default function CreateButton() {
         Criar Agente
       </Button>
 
-      <CreateDialog open={open} closeDialog={closeDialog} />
+      <CreateDialog open={isCreateDialogOpen} closeDialog={closeCreateDialog} />
+
+      <UpgradeDialog
+        open={isUpgradeDialogOpen}
+        closeDialog={closeUpgradeDialog}
+      />
     </React.Fragment>
   );
 }
