@@ -11,6 +11,7 @@ import GoogleGenAI, {
 } from "@/modules/google-generative-ai";
 import {
   createConversationParts,
+  useConversationParts,
   useOrgAgents,
   useOrganizationById,
   useOrgProducts,
@@ -65,7 +66,11 @@ function generateRandomId() {
 function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
   const conversationId = React.useRef<string>(generateRandomId());
 
-  const [parts, setParts] = React.useState<
+  const [parts = [], isLoadingParts, loadingPartsError] = useConversationParts({
+    orgId: app_id,
+    conversationId: conversationId.current,
+  });
+  const [temporaryParts, setTemporaryParts] = React.useState<
     OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc[]
   >([]);
 
@@ -77,12 +82,18 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
     useOrgProducts(app_id);
 
   const initializationStatus =
-    isLoadingAgent || isLoadingProducts || isLoadingOrganization
+    isLoadingAgent ||
+    isLoadingProducts ||
+    isLoadingOrganization ||
+    isLoadingParts
       ? "loading"
       : "idle";
 
   const initializationError =
-    loadingAgentError || loadingProductsError || loadingOrganizationError;
+    loadingAgentError ||
+    loadingProductsError ||
+    loadingOrganizationError ||
+    loadingPartsError;
 
   const [sendStatus, setSendLoadingStatus] = React.useState<
     "idle" | "sending_user_message" | "loading_ai_response"
@@ -119,6 +130,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
 
       try {
         setSendLoadingStatus("sending_user_message");
+        setTemporaryParts(parts);
 
         const userPart: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc = {
           id: "user-temporary",
@@ -135,7 +147,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           type: "comment",
           body: message,
         };
-        setParts((prev) => [...prev, userPart]);
+        setTemporaryParts((prev) => [...prev, userPart]);
 
         setSendLoadingStatus("loading_ai_response");
         let aiPart: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc = {
@@ -153,10 +165,10 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           type: "comment",
           body: "",
         };
-        setParts((prev) => [...prev, aiPart]);
+        setTemporaryParts((prev) => [...prev, aiPart]);
 
         const agentAsModel = getAgentAsModel({
-          systemInstruction: getSystemInstructionFromContext({
+          systemInstruction: getSystemInstruction({
             organization,
             agent,
             context,
@@ -181,7 +193,10 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
             notifiedAt: Date.now(),
             body: (aiPart.body || "") + chunk.text(),
           };
-          setParts((prev) => [...prev.slice(0, prev.length - 1), aiPart]);
+          setTemporaryParts((prev) => [
+            ...prev.slice(0, prev.length - 1),
+            aiPart,
+          ]);
         }
 
         await createConversationParts(organization.id, conversationId.current, [
@@ -192,6 +207,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
         setSendError(error?.message || "Erro ao enviar mensagem");
       } finally {
         setSendLoadingStatus("idle");
+        setTemporaryParts([]);
       }
     },
     [
@@ -199,7 +215,6 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
       agent,
       setSendError,
       setSendLoadingStatus,
-      setParts,
       sendStatus,
       parts,
       loadingProductsError,
@@ -207,13 +222,18 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
       organization,
       initializationStatus,
       context,
+      setTemporaryParts,
+      conversationId,
     ]
   );
+
+  const partsToUse =
+    sendStatus === "loading_ai_response" ? temporaryParts : parts;
 
   return (
     <ReactChatAppContext.Provider
       value={{
-        parts,
+        parts: partsToUse,
         initializationStatus,
         initializationError: initializationError?.message || null,
         sendStatus,
@@ -249,7 +269,7 @@ function getAgentAsModel(startChatParams: StartChatParams) {
   return chat;
 }
 
-function getSystemInstructionFromContext({
+function getSystemInstruction({
   organization,
   agent,
   context,
