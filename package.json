@@ -23,7 +23,7 @@
     "@pinecone-database/pinecone": "^3.0.3",
     "@uidotdev/usehooks": "^2.4.1",
     "ai": "^3.4.12",
-    "axios": "^1.6.7",
+    "axios": "^1.7.4",
     "firebase": "^10.7.2",
     "json-edit-react": "^1.15.4",
     "next": "14.1.0",
