@@ -59,7 +59,7 @@ export type ChatAppProviderProps = ChatAppInput & {
 };
 
 function generateRandomId() {
-  return Math.random().toString(36).substring(7);
+  return Math.random().toString(36).substring(16);
 }
 
 function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
@@ -139,7 +139,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
 
         setSendLoadingStatus("loading_ai_response");
         let aiPart: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc = {
-          id: agent.id,
+          id: "ai-temporary",
           createdAt: Date.now(),
           updatedAt: Date.now(),
           notifiedAt: Date.now(),
@@ -206,6 +206,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
       products,
       organization,
       initializationStatus,
+      context,
     ]
   );
 
