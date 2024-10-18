@@ -15,15 +15,25 @@ export const COLUMNS: ColumnWithTypedField[] = [
   {
     field: "updatedAt",
     headerName: "Atualizada em",
-    valueGetter: (params) => {
-      return new Date(params.row.updatedAt).toLocaleString();
+    valueGetter: ({ row }) => {
+      if (row.lastPart) {
+        return new Date(row.lastPart.updatedAt).toLocaleString();
+      }
+
+      return new Date(row.updatedAt).toLocaleString();
     },
     minWidth: 140,
   },
 
   {
-    field: "membersIds",
+    field: "members",
     headerName: "Membros",
     minWidth: 140,
+    valueGetter: (params) => {
+      // TODO: we could do better here
+      return Object.values(params.row.members)
+        .map((member) => member.name)
+        .join(", ");
+    },
   },
 ];

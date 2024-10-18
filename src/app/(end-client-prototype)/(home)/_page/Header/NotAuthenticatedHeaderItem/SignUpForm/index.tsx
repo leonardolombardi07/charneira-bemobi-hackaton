@@ -22,6 +22,8 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
   const nameRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
+  const aboutMeRef = React.useRef<HTMLInputElement>(null);
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -33,6 +35,7 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
     const name = String(formData.get("name"));
     const email = String(formData.get("email"));
     const password = String(formData.get("password"));
+    const aboutMe = String(formData.get("aboutMe"));
 
     if (!name) return nameRef.current?.focus();
     if (!email) return emailRef.current?.focus();
@@ -44,6 +47,7 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
         name,
         email,
         password,
+        aboutMe,
       });
       setUser({
         ...user,
@@ -93,6 +97,7 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
       />
 
       <PasswordTextField
+        inputRef={passwordRef}
         required
         id="password"
         name="password"
@@ -100,6 +105,21 @@ export default function SignUpForm({ onSuccess, onCancel }: SignUpFormProps) {
         type="password"
         fullWidth
         sx={{ my: 3 }} // For some reason we need to add margin to the text field
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            aboutMeRef.current?.focus();
+          }
+        }}
+      />
+
+      <TextField
+        inputRef={aboutMeRef}
+        name="aboutMe"
+        fullWidth
+        label={`Sobre mim`}
+        placeholder="Descreva um pouco sobre você..."
+        multiline
+        rows={4}
       />
 
       {error && (

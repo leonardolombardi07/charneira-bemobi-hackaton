@@ -27,6 +27,7 @@ interface SignUpWithEmailAndPasswordForm {
   name: string;
   email: string;
   password: string;
+  aboutMe: string;
 }
 
 async function signUp(
@@ -63,6 +64,7 @@ async function signUp(
   await createUserOnFirestoreIfDoesNotExist(user.uid, {
     name: user.displayName || "",
     photoURL: user.photoURL || "",
+    aboutMe: form?.aboutMe || "",
   });
 
   return userCredential;

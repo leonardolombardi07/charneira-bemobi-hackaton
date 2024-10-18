@@ -11,6 +11,7 @@ import GoogleGenAI, {
 } from "@/modules/google-generative-ai";
 import {
   createConversationParts,
+  updateConversation,
   useConversationParts,
   useOrgAgents,
   useOrganizationById,
@@ -64,22 +65,26 @@ function generateRandomId() {
 }
 
 function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
-  const conversationId = React.useRef<string>(generateRandomId());
+  const conversationIdRef = React.useRef<string>(generateRandomId());
+  const conversationId = conversationIdRef.current;
+  const orgId = app_id;
 
   const [parts = [], isLoadingParts, loadingPartsError] = useConversationParts({
-    orgId: app_id,
-    conversationId: conversationId.current,
+    orgId,
+    conversationId,
   });
   const [temporaryParts, setTemporaryParts] = React.useState<
     OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc[]
   >([]);
 
   const [organization, isLoadingOrganization, loadingOrganizationError] =
-    useOrganizationById(app_id);
+    useOrganizationById(orgId);
 
-  const [agent, isLoadingAgent, loadingAgentError] = useChatAgent({ app_id });
+  const [agent, isLoadingAgent, loadingAgentError] = useChatAgent({
+    app_id: orgId,
+  });
   const [products = [], isLoadingProducts, loadingProductsError] =
-    useOrgProducts(app_id);
+    useOrgProducts(orgId);
 
   const initializationStatus =
     isLoadingAgent ||
@@ -132,39 +137,28 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
         setSendLoadingStatus("sending_user_message");
         setTemporaryParts(parts);
 
-        const userPart: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc = {
-          id: "user-temporary",
-          createdAt: Date.now(),
-          updatedAt: Date.now(),
-          notifiedAt: Date.now(),
+        const userPart = createCommentPart({
           author: {
             id: user.id,
             type: "user",
             name: user.name,
             photoURL: user.photoURL,
           },
-          replyOptions: [],
-          type: "comment",
           body: message,
-        };
+        });
         setTemporaryParts((prev) => [...prev, userPart]);
 
         setSendLoadingStatus("loading_ai_response");
-        let aiPart: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc = {
-          id: "ai-temporary",
-          createdAt: Date.now(),
-          updatedAt: Date.now(),
-          notifiedAt: Date.now(),
+
+        let aiPart = createCommentPart({
           author: {
             id: agent.id,
             name: agent.name,
             type: "bot",
             photoURL: "",
           },
-          replyOptions: [],
-          type: "comment",
           body: "",
-        };
+        });
         setTemporaryParts((prev) => [...prev, aiPart]);
 
         const agentAsModel = getAgentAsModel({
@@ -175,20 +169,13 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
             products,
           }),
           safetySettings: DEFAULT_SAFE_SETTINGS,
-          history: [
-            ...parts
-              .filter((p) => Boolean(p.body))
-              .map((p) => ({
-                role: authorTypeToGoogleGenAIRole(p.author.type),
-                parts: [{ text: p.body || "" }],
-              })),
-          ],
+          history: partsToHistory(parts),
         });
+
         const result = await agentAsModel.sendMessageStream(message);
         for await (const chunk of result.stream) {
           aiPart = {
             ...aiPart,
-            createdAt: Date.now(),
             updatedAt: Date.now(),
             notifiedAt: Date.now(),
             body: (aiPart.body || "") + chunk.text(),
@@ -199,10 +186,42 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           ]);
         }
 
-        await createConversationParts(organization.id, conversationId.current, [
+        // Heads up: we need this await, otherwise the parts state
+        // will not be updated after this function runs and the UI
+        // will rollback to the previous state
+        await createConversationParts(orgId, conversationId, [
           userPart,
           aiPart,
         ]);
+        setSendLoadingStatus("idle");
+        // We don't need the user to know we are doing background work after here
+
+        const ASK_FOR_TITLE_PROMPT = `Baseado nas mensagens anteriores dessa conversa, responda com APENAS UM bom título com no máximo 10 palavras. Mas realmente tente dar um título - como, se for uma conversa vaga ou estranha, tente dar um título que capture isso. Não responda com coisas como "Por favor, me forneça mais contexto"`;
+
+        const updatedAgentAsModel = getAgentAsModel({
+          systemInstruction: getSystemInstruction({
+            organization,
+            agent,
+            context,
+            products,
+          }),
+          safetySettings: DEFAULT_SAFE_SETTINGS,
+          history: [
+            ...partsToHistory(parts),
+            {
+              role: "model",
+              parts: [{ text: ASK_FOR_TITLE_PROMPT }],
+            },
+          ],
+        });
+
+        const titleResult = await updatedAgentAsModel.sendMessage("");
+
+        updateConversation(conversationId, {
+          orgId,
+          title: titleResult.response.text(),
+          lastPart: aiPart,
+        });
       } catch (error: any) {
         setSendError(error?.message || "Erro ao enviar mensagem");
       } finally {
@@ -224,6 +243,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
       context,
       setTemporaryParts,
       conversationId,
+      orgId,
     ]
   );
 
@@ -308,6 +328,23 @@ function useChatAgent({ app_id }: { app_id: ChatAppInput["app_id"] }) {
   return [agents ? agents[0] : undefined, isLoading, error] as const;
 }
 
+function createCommentPart(
+  data: Omit<
+    OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc,
+    "id" | "createdAt" | "updatedAt" | "notifiedAt" | "replyOptions" | "type"
+  >
+): OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc {
+  return {
+    id: generateRandomId(),
+    type: "comment",
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    notifiedAt: Date.now(),
+    replyOptions: [],
+    ...data,
+  };
+}
+
 const DEFAULT_SAFE_SETTINGS: SafetySetting[] = [
   {
     category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -332,6 +369,15 @@ function authorTypeToGoogleGenAIRole(
     default:
       return "system";
   }
+}
+
+function partsToHistory(
+  parts: OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc[]
+): Content[] {
+  return parts.filter(Boolean).map((part) => ({
+    role: authorTypeToGoogleGenAIRole(part.author.type),
+    parts: [{ text: part.body || "" }],
+  }));
 }
 
 export default ChatAppProvider;

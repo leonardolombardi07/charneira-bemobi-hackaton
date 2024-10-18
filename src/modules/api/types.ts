@@ -12,6 +12,7 @@ export namespace UsersCol {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     name: string;
+    aboutMe: string;
     photoURL: string;
   }
 }
@@ -62,13 +63,21 @@ export namespace OrganizationsCol {
   }
 
   export namespace ConversationsSubCol {
+    export interface ConversationMember {
+      id: UserId;
+      name: string;
+      photoURL: string;
+    }
+
     export interface Doc {
       id: ConversationId;
       orgId: OrganizationId;
       title: string;
       createdAt: Timestamp;
       updatedAt: Timestamp;
-      membersIds: UserId[];
+      members: {
+        [userId: UserId]: ConversationMember;
+      };
       lastPart: PartsSubCol.Doc | null;
     }
 
