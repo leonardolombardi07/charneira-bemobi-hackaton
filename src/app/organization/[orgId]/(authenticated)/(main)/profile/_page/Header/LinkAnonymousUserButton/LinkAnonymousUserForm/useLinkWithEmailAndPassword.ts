@@ -2,8 +2,7 @@
 
 import React from "react";
 import { linkAnonymousUser } from "@/modules/api/client";
-import { useNavigateToInitialUrl } from "@/app/_layout/AuthenticationRouter";
-import { getHumanReadableErrorMessage } from "@/app/(not-authenticated)/_utils";
+import { getHumanReadableErrorMessage } from "../../../../../../../../(not-authenticated)/_utils";
 
 function useLinkWithEmailAndPassword() {
   const emailRef = React.useRef<HTMLInputElement>(null);
