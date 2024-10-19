@@ -1,16 +1,13 @@
 import { doc, setDoc } from "firebase/firestore";
 import { getCollections } from "../../utils";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { getServices } from "../../services";
 import { UsersCol } from "../../../types";
 
-const { auth } = getServices();
 const { usersCol } = getCollections();
 
-function useFirestoreUser() {
-  const userId = auth.currentUser?.uid;
+function useFirestoreUser(uid: string | undefined) {
   const [item, isLoading, error] = useDocumentData(
-    doc(usersCol, userId || "forceError")
+    doc(usersCol, uid || "forceError")
   );
   return [item, isLoading, error] as const;
 }

@@ -21,9 +21,13 @@ import {
 import PageLoader from "@/components/feedback/PageLoader";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import { useUserContext } from "@/app/_layout/UserProvider";
 
 export default function Page() {
-  const [user, isLoadingUser, loadingUserError] = useFirestoreUser();
+  const { user: maybeUser } = useUserContext();
+  const [user, isLoadingUser, loadingUserError] = useFirestoreUser(
+    maybeUser?.uid
+  );
 
   const [lastCreatedOrg, isLoadingLastCreatedOrg, loadingLastCreatedOrgError] =
     useLastCreatedOrganization();
