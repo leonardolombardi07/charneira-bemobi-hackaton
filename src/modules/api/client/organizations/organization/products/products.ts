@@ -1,4 +1,4 @@
-import { doc, writeBatch } from "firebase/firestore";
+import { doc, getDocs, writeBatch } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { getServices } from "@/modules/api/client/services";
 import { OrganizationsCol } from "@/modules/api/types";
@@ -26,4 +26,13 @@ function updateProducts(data: UpdateProductData[]) {
   return batch.commit();
 }
 
-export { useOrgProducts, updateProducts };
+async function getOrgProducts(orgId: string) {
+  const { productsCol } = getOrganizationSubcollections(orgId);
+  const snap = await getDocs(productsCol);
+
+  return snap.docs.map((d) => ({
+    ...(d.data() as OrganizationsCol.ProductsSubCol.Doc),
+  }));
+}
+
+export { useOrgProducts, updateProducts, getOrgProducts };

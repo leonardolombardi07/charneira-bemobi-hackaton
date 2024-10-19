@@ -128,8 +128,14 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
         );
       }
 
-      if (!organization) return setSendError("Organização não encontrada");
-      if (!agent) return setSendError("Agente não encontrado");
+      if (!organization)
+        return setSendError(
+          "Organização não encontrada. Algum erro interno ocorreu, pedimos desculpas."
+        );
+      if (!agent)
+        return setSendError(
+          "Agente não encontrado. Isso significa que a organização provedora dessa chat ainda não o configurou adequdamente. Contante um funcionário da empresa e tente novamente mais tarde."
+        );
 
       setSendError(null);
 

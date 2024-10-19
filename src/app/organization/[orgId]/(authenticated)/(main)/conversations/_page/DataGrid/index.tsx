@@ -9,12 +9,21 @@ import { COLUMNS } from "./columns";
 import { useOrgConversations } from "@/modules/api/client";
 import EmptyConversationsIcon from "@mui/icons-material/Chat";
 import { Row } from "./types";
+import { OrganizationsCol } from "@/modules/api";
 
 interface DataGridProps {
   orgId: string;
+  selectedConversation: OrganizationsCol.ConversationsSubCol.Doc | null;
+  setSelectedConversation: (
+    conversation: OrganizationsCol.ConversationsSubCol.Doc
+  ) => void;
 }
 
-export default function DataGrid({ orgId }: DataGridProps) {
+export default function DataGrid({
+  orgId,
+  selectedConversation,
+  setSelectedConversation,
+}: DataGridProps) {
   const [rows = [], isLoading, error] = useOrgConversations(orgId);
 
   const transformedRows: Row[] = rows.map((row) => ({
@@ -32,7 +41,20 @@ export default function DataGrid({ orgId }: DataGridProps) {
       rows={error ? [] : transformedRows}
       columns={COLUMNS}
       loading={isLoading}
-      autoHeight
+      onRowSelectionModelChange={(newRowSelectionModel) => {
+        const selectedRow = transformedRows.find(
+          (row) => row.id === newRowSelectionModel[0]
+        );
+        if (!selectedRow) {
+          alert("Ooops, conversa não encontrada. Esse foi um erro inesperado.");
+          return;
+        }
+
+        setSelectedConversation(rowToConversation(selectedRow));
+      }}
+      rowSelectionModel={
+        selectedConversation?.id ? [selectedConversation.id] : undefined
+      }
       getRowHeight={() => "auto"}
       getRowId={(row) => row.id}
       slots={{
@@ -42,6 +64,7 @@ export default function DataGrid({ orgId }: DataGridProps) {
       }}
       sx={{
         ...overlaySx,
+        border: "none",
       }}
     />
   );
@@ -75,4 +98,18 @@ function NoResults() {
       description="Não encontramos nenhuma conversa com os filtros aplicados."
     />
   );
+}
+
+function rowToConversation(row: Row): OrganizationsCol.ConversationsSubCol.Doc {
+  const membersArray = [...row.agents, ...row.customers];
+
+  const members = membersArray.reduce((acc = {}, member) => {
+    acc[member.id] = member;
+    return acc;
+  }, {} as OrganizationsCol.ConversationsSubCol.Doc["members"]);
+
+  return {
+    ...row,
+    members,
+  };
 }

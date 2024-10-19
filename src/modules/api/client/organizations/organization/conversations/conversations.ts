@@ -1,8 +1,9 @@
-import { doc, writeBatch } from "firebase/firestore";
+import { doc, writeBatch, getDocs } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { getServices } from "@/modules/api/client/services";
 import { OrganizationsCol } from "@/modules/api/types";
 import { getOrganizationSubcollections } from "../utils";
+import { getConversationSubCollections } from "./conversation/utils";
 
 const { firestore } = getServices();
 
@@ -26,4 +27,36 @@ function updateConversations(data: UpdateConversationData[]) {
   return batch.commit();
 }
 
-export { useOrgConversations, updateConversations };
+async function getOrgConversationsWithParts(orgId: string) {
+  const { conversationsCol } = getOrganizationSubcollections(orgId);
+
+  const docs = await getDocs(conversationsCol);
+  const conversations = docs.docs.map(
+    (doc) => doc.data() as OrganizationsCol.ConversationsSubCol.Doc
+  );
+
+  const conversationsWithParts = await Promise.all(
+    conversations.map(async (conversation) => {
+      const { partsCol } = getConversationSubCollections({
+        orgId,
+        conversationId: conversation.id,
+      });
+      const parts = await getDocs(partsCol);
+      return {
+        ...conversation,
+        parts: parts.docs.map(
+          (doc) =>
+            doc.data() as OrganizationsCol.ConversationsSubCol.PartsSubCol.Doc
+        ),
+      };
+    })
+  );
+
+  return conversationsWithParts;
+}
+
+export {
+  useOrgConversations,
+  updateConversations,
+  getOrgConversationsWithParts,
+};

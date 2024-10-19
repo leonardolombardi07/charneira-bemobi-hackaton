@@ -5,10 +5,10 @@ import { UpdateProductData } from "../products";
 
 type CreateProductData = Omit<OrganizationsCol.ProductsSubCol.Doc, "id">;
 
-function createProduct(data: CreateProductData) {
+async function createProduct(data: CreateProductData) {
   const { productsCol } = getOrganizationSubcollections(data.orgId);
   const pDoc = doc(productsCol);
-  setDoc(pDoc, { id: pDoc.id, ...data }, { merge: true });
+  await setDoc(pDoc, { id: pDoc.id, ...data }, { merge: true });
   return {
     id: pDoc.id,
   };

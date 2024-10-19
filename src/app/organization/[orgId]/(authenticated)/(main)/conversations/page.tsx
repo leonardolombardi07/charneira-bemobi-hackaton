@@ -1,10 +1,9 @@
 import Box from "@mui/material/Box";
 import React from "react";
-import DataGrid from "./_page/DataGrid";
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { Metadata } from "next";
 import { APP_NAME } from "@/app/organization/constants";
+import ClientEntry from "./client";
 
 export const metadata: Metadata = {
   title: `${APP_NAME} | Conversas`,
@@ -18,23 +17,13 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   return (
-    <Container
+    <Box
       sx={{
-        py: 3,
+        px: 0,
+        py: 0,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          py: 2,
-        }}
-      >
-        <Typography variant="h4">Conversas</Typography>
-      </Box>
-
-      <DataGrid orgId={params.orgId} />
-    </Container>
+      <ClientEntry params={params} />
+    </Box>
   );
 }

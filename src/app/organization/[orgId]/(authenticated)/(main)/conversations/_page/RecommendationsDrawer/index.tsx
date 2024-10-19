@@ -1,0 +1,313 @@
+"use client";
+
+import React from "react";
+import Drawer from "@mui/material/Drawer";
+import Box from "@mui/material/Box";
+import RecommendationsIcon from "@mui/icons-material/AutoFixHigh";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import { OrganizationsCol } from "@/modules/api";
+import Grid from "@mui/material/Grid";
+import useRecommendations from "./useRecommendations";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Divider from "@mui/material/Divider";
+import { createProduct } from "@/modules/api/client";
+import Snackbar from "@mui/material/Snackbar";
+import { useParams } from "next/navigation";
+
+interface RecommendationsDrawerProps {
+  isOpen: boolean;
+  close: () => void;
+}
+
+export default function RecommendationsDrawer({
+  isOpen,
+  close,
+}: RecommendationsDrawerProps) {
+  const { data, setData, isLoading, error, fetchRecommendations } =
+    useRecommendations();
+
+  const [isSnackOpen, setIsSnackOpen] = React.useState(false);
+
+  function openSnackbar() {
+    setIsSnackOpen(true);
+  }
+
+  function closeSnackbar() {
+    setIsSnackOpen(false);
+  }
+
+  async function onProductCreated(
+    product: OrganizationsCol.ProductsSubCol.Doc
+  ) {
+    setData((prev) => prev.filter((item) => item.id !== product.id));
+    openSnackbar();
+  }
+
+  return (
+    <React.Fragment>
+      <Drawer
+        open={isOpen}
+        onClose={close}
+        anchor="right"
+        sx={{
+          position: "relative",
+          "& .MuiDrawer-paper": {
+            width: {
+              xs: "100%",
+              sm: 600,
+            },
+          },
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: 20,
+            left: 20,
+          }}
+        >
+          <IconButton onClick={close}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+
+        <Container
+          sx={{
+            pt: 8,
+            pb: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 1,
+              textAlign: "center",
+            }}
+          >
+            <RecommendationsIcon
+              sx={{
+                fontSize: 60,
+              }}
+            />
+            <Typography variant="h4">Recomendações de Produtos</Typography>
+            <Typography variant="body2">
+              Analisando os produtos de sua empresa e o histórico de conversas
+              dos seus clientes, recomendamos produtos que poderiam ser
+              adicionados ao seu catálogo.
+            </Typography>
+          </Box>
+
+          <Divider sx={{ mt: 2, mb: 4 }} />
+
+          {error && (
+            <Error error={error} fetchRecomendations={fetchRecommendations} />
+          )}
+          {isLoading && <Loading />}
+          {!isLoading && !error && data.length === 0 ? (
+            <NoRecommendations fetchRecomendations={fetchRecommendations} />
+          ) : null}
+
+          {data.length > 0 && (
+            <Button
+              variant="contained"
+              onClick={fetchRecommendations}
+              fullWidth
+              color="secondary"
+              sx={{ mb: 4 }}
+            >
+              Novas Recomendações
+            </Button>
+          )}
+
+          <Grid container spacing={2}>
+            {data.map((product) => (
+              <Grid key={product.id} item xs={12} sm={6}>
+                <ProductRecommendationCard
+                  product={product}
+                  onCreated={onProductCreated}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Drawer>
+
+      <Snackbar
+        open={isSnackOpen}
+        autoHideDuration={6000}
+        onClose={closeSnackbar}
+      >
+        <Alert
+          onClose={closeSnackbar}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Produto adicionado com sucesso!
+        </Alert>
+      </Snackbar>
+    </React.Fragment>
+  );
+}
+
+function ProductRecommendationCard({
+  product,
+  onCreated,
+}: {
+  product: OrganizationsCol.ProductsSubCol.Doc;
+  onCreated: (
+    product: OrganizationsCol.ProductsSubCol.Doc
+  ) => Promise<void> | void;
+}) {
+  const params = useParams();
+  const orgId = params.orgId as string;
+
+  const [isCreating, setIsCreating] = React.useState(false);
+
+  async function onCreate() {
+    if (isCreating) return;
+
+    setIsCreating(true);
+
+    try {
+      await createProduct({
+        ...product,
+        orgId, // orgId might be generated by AI
+      });
+      onCreated(product);
+    } catch (error: any) {
+      alert(error?.message || "Algum erro inesperado ocorreu");
+    } finally {
+      setIsCreating(false);
+    }
+  }
+
+  const { name, description, prices } = product;
+
+  const price = prices[0];
+  const { currency, unit_amount, recurring } = price;
+  const interval = recurring?.interval;
+
+  const brInterval = interval === "month" ? "mês" : "ano";
+  const convertedCurrency = currency === "BRL" ? "R$" : currency;
+  const priceString = `${convertedCurrency} ${unit_amount} ${
+    interval ? `/${brInterval}` : ""
+  }`;
+
+  return (
+    <Card variant="outlined" sx={{ maxWidth: 250 }}>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {name}
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary">
+          {priceString}
+        </Typography>
+      </CardContent>
+
+      <CardActions>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={onCreate}
+          disabled={isCreating}
+        >
+          Adicionar Produto
+        </Button>
+      </CardActions>
+    </Card>
+  );
+}
+
+function Loading() {
+  return (
+    <Box
+      sx={{
+        textAlign: "center",
+      }}
+    >
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <CircularProgress />
+      </Box>
+      <Typography
+        variant="body2"
+        sx={{
+          color: "text.secondary",
+        }}
+      >
+        Carregando recomendações...
+      </Typography>
+    </Box>
+  );
+}
+
+function Error({
+  error,
+  fetchRecomendations,
+}: {
+  error: any;
+  fetchRecomendations: () => void;
+}) {
+  return (
+    <React.Fragment>
+      <Alert severity="error">
+        <AlertTitle>Erro</AlertTitle>
+        Ocorreu um erro ao carregar as recomendações: {error?.message || error}
+      </Alert>
+
+      <Button
+        variant="outlined"
+        onClick={fetchRecomendations}
+        sx={{
+          mt: 2,
+        }}
+        fullWidth
+      >
+        Tentar novamente
+      </Button>
+    </React.Fragment>
+  );
+}
+
+function NoRecommendations({
+  fetchRecomendations,
+}: {
+  fetchRecomendations: () => void;
+}) {
+  return (
+    <React.Fragment>
+      <Alert severity="info">
+        <AlertTitle>Nenhuma recomendação</AlertTitle>
+        Parece que não temos nenhuma recomendação de qualidade para você no
+        momento.
+      </Alert>
+
+      <Button
+        variant="outlined"
+        onClick={fetchRecomendations}
+        sx={{
+          mt: 2,
+        }}
+        fullWidth
+      >
+        Buscar novas recomendações
+      </Button>
+    </React.Fragment>
+  );
+}

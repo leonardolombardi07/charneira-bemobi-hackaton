@@ -1,4 +1,12 @@
-import { doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import {
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { OrganizationsCol } from "@/modules/api/types";
 import { getCollectionGroups, getCollections } from "../../utils";
 import { useDocumentData } from "react-firebase-hooks/firestore";
@@ -26,8 +34,21 @@ async function getUserOrgId(uid: string) {
   return user.orgId;
 }
 
+async function getOrganizationById(orgId: string) {
+  const snap = await getDocs(
+    query(organizationsCol, where(documentId(), "==", orgId))
+  );
+
+  return snap.docs.map((d) => ({ ...d.data() }))[0];
+}
+
 function useOrganizationById(orgId: string) {
   return useDocumentData(doc(organizationsCol, orgId));
 }
 
-export { createOrganization, getUserOrgId, useOrganizationById };
+export {
+  createOrganization,
+  getUserOrgId,
+  useOrganizationById,
+  getOrganizationById,
+};
