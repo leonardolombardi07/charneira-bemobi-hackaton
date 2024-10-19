@@ -1,6 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { Row } from "./types";
-import Chip from "@mui/material/Chip";
+import Chip, { ChipProps } from "@mui/material/Chip";
 
 type ColumnWithTypedField = GridColDef<Row> & {
   field: keyof Row;
@@ -29,13 +29,13 @@ export const COLUMNS: ColumnWithTypedField[] = [
   {
     field: "agents",
     headerName: "Agentes",
-    minWidth: 140,
+    minWidth: 220,
     renderCell: (params) => {
       return params.row.agents.map((agent) => (
         <Chip
           key={agent.id}
           variant="outlined"
-          color="primary"
+          color={getRandomChipColor()}
           label={agent.name}
         />
       ));
@@ -45,7 +45,7 @@ export const COLUMNS: ColumnWithTypedField[] = [
   {
     field: "customers",
     headerName: "Clientes",
-    minWidth: 140,
+    minWidth: 220,
     renderCell: (params) => {
       return params.row.customers.map((customer) => (
         <Chip
@@ -58,3 +58,18 @@ export const COLUMNS: ColumnWithTypedField[] = [
     },
   },
 ];
+
+function getRandomChipColor(): ChipProps["color"] {
+  return getRandomFromArray([
+    "primary",
+    "secondary",
+    "default",
+    "info",
+    "warning",
+    "success",
+  ]);
+}
+
+function getRandomFromArray<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
