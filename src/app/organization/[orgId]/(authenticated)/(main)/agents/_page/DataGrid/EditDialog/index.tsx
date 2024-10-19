@@ -38,7 +38,7 @@ export default function EditDialog({
             </IconButton>
 
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Criar Agente
+              Atualizar Agente
             </Typography>
           </Toolbar>
         </AppBar>
