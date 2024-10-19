@@ -10,7 +10,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import Alert from "@mui/material/Alert";
 import { APP_NAME } from "@/app/organization/constants";
 
 interface Tier {
@@ -153,9 +152,28 @@ export default function Plans({ closeDialog }: PlansProps) {
                     {tier.title}
                   </Typography>
                   {tier.title === "Profissional" && (
-                    <Chip icon={<AutoAwesomeIcon />} label={tier.subheader} />
+                    <Chip
+                      icon={<AutoAwesomeIcon />}
+                      label={tier.subheader}
+                      variant="filled"
+                      sx={{
+                        bgcolor: (t) => {
+                          const isDark = t.palette.mode === "dark";
+                          return isDark ? undefined : "background.default";
+                        },
+                        color: (t) => {
+                          const isDark = t.palette.mode === "dark";
+                          return isDark
+                            ? undefined
+                            : t.palette.getContrastText(
+                                t.palette.background.default
+                              );
+                        },
+                      }}
+                    />
                   )}
                 </Box>
+
                 <Box
                   sx={[
                     {
