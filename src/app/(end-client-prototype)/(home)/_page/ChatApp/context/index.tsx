@@ -341,7 +341,9 @@ function getSystemInstruction({
   )}. Se não souber sobre um produto, você pode dizer que não tem informações sobre ele.`;
 
   const user = getUserFromAppContext(context);
-  const CONTEXT_PROMPT = `O nome do usuário com quem você está conversando é "${user.name}". Certifique-se de usar esse nome em suas respostas para criar uma interação mais pessoal.`;
+  const CONTEXT_PROMPT = `O nome do usuário com quem você está conversando é "${user.name}". Certifique-se de usar esse nome em suas respostas para criar uma interação mais pessoal.
+  O usuário informou a seguinte descrição sobre si mesmo: ${user.aboutMe}
+  `;
 
   return {
     role: "system",
