@@ -3,8 +3,15 @@
 import React from "react";
 import { createOrganization, signUpOrgMember } from "@/modules/api/client";
 import { useNavigateToInitialUrl } from "@/app/organization/_layout/AuthenticationRouter";
+import useDialog from "@/modules/hooks/useDialog";
 
 function useSignUpWithForm() {
+  const {
+    isOpen: isDisabledSignUpDialogOpen,
+    open: openDisabledSignUpDialog,
+    close: closeDisabledSignUpDialog,
+  } = useDialog();
+
   const orgNameRef = React.useRef<HTMLInputElement>(null);
   const nameRef = React.useRef<HTMLInputElement>(null);
   const emailRef = React.useRef<HTMLInputElement>(null);
@@ -34,16 +41,19 @@ function useSignUpWithForm() {
     setIsLoading(true);
     setSubmitError(null);
     try {
+      openDisabledSignUpDialog();
+
+      /* ---------- TEMPORARLY DISABLED -------- */
       // We need to create the organization first, so we can sign up the user
       // it must be sequential, otherwise firebase can create the user but the organization creation can fail
-      const { id: orgId } = await createOrganization({
-        name: orgName,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-        photoURL: "",
-      });
-      await signUpOrgMember("email/password", orgId, { email, password, name });
-      goHome(orgId);
+      // const { id: orgId } = await createOrganization({
+      //   name: orgName,
+      //   createdAt: Date.now(),
+      //   updatedAt: Date.now(),
+      //   photoURL: "",
+      // });
+      // await signUpOrgMember("email/password", orgId, { email, password, name });
+      // goHome(orgId);
     } catch (error: any) {
       console.error(error);
       console.error(error.code);
@@ -67,6 +77,9 @@ function useSignUpWithForm() {
   }
 
   return {
+    isDisabledSignUpDialogOpen,
+    openDisabledSignUpDialog,
+    closeDisabledSignUpDialog,
     refs: {
       orgNameRef,
       nameRef,

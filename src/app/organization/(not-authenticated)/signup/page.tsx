@@ -13,6 +13,7 @@ import { useSignUpWithForm } from "./_page/hooks";
 import PasswordTextField from "@/components/inputs/PasswordTextField";
 import AuthLink from "../_components/AuthLink";
 import LogoWithTitle from "../_components/LogoWithTitle";
+import ConfirmDialog from "@/components/feedback/ConfirmDialog";
 
 export default function Page() {
   const {
@@ -20,6 +21,9 @@ export default function Page() {
     isLoading,
     submitError: error,
     onSubmit,
+
+    isDisabledSignUpDialogOpen,
+    closeDisabledSignUpDialog,
   } = useSignUpWithForm();
 
   return (
@@ -146,6 +150,15 @@ export default function Page() {
           )}
         </Grid>
       </Box>
+
+      <ConfirmDialog
+        title="Cadastro desabilitado"
+        description="O cadastro de novas empresas está desabilitado no momento. Entre em contato com o suporte para receber uma conta de teste."
+        open={isDisabledSignUpDialogOpen}
+        onClose={closeDisabledSignUpDialog}
+        onConfirm={closeDisabledSignUpDialog}
+        confirmText="Ok"
+      />
     </React.Fragment>
   );
 }
