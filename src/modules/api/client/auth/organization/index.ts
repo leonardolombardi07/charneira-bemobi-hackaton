@@ -122,19 +122,22 @@ function throwErrorIfNoForm<T>(form: T): asserts form is NonNullable<T> {
 async function createOrgMemberOnFirestoreIfDoesNotExist(
   userId: string,
   orgId: string,
-  data: Omit<UsersCol.Doc, "id" | "createdAt" | "updatedAt">
+  data: Omit<
+    OrganizationsCol.MembersSubCol.Doc,
+    "id" | "orgId" | "createdAt" | "updatedAt" | "role"
+  >
 ) {
   const { membersCol } = getOrganizationSubcollections(orgId);
   const memberDoc = doc(membersCol, userId);
   const snap = await getDoc(memberDoc);
   if (!snap.exists()) {
     setDoc(memberDoc, {
+      ...data,
       id: userId,
       orgId,
       createdAt: Date.now(),
       updatedAt: Date.now(),
       role: "member",
-      ...data,
     });
   }
 }
