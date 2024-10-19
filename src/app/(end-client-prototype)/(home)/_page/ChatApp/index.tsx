@@ -241,7 +241,8 @@ function Send() {
         width: "100%",
         px: 1,
         mb: 1,
-        height: "70px",
+        minHeight: "70px",
+        height: "auto",
         position: "absolute",
         bottom: 0,
         left: 0,
@@ -269,7 +270,7 @@ function Send() {
                 disabled={disableSend}
                 onClick={_onSend}
                 sx={{
-                  bgcolor: "background.paper",
+                  bgcolor: disableSend ? undefined : "primary.main",
                   mx: 0.5,
                   mb: 2.5, // For some reason, when multiline we need this to centralize the icon
                 }}
@@ -277,7 +278,18 @@ function Send() {
                 {isSending ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
-                  <SendIcon />
+                  <SendIcon
+                    sx={{
+                      color: (t) => {
+                        if (disableSend) return "inherit";
+
+                        const isDark = t.palette.mode === "dark";
+                        return isDark
+                          ? "secondary.main"
+                          : "primary.contrastText";
+                      },
+                    }}
+                  />
                 )}
               </IconButton>
             </InputAdornment>
