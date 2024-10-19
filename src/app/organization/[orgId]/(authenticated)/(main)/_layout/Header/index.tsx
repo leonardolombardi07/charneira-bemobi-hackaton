@@ -64,9 +64,10 @@ export default function Header({ sx, onDrawerToggle }: HeaderProps) {
             variant="h6"
             component="h2"
             sx={{
-              ml: "3px",
+              ml: "5px",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
+              fontWeight: 700,
             }}
           >
             {organization?.name}
