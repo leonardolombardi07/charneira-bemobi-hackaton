@@ -79,8 +79,8 @@ function ConversationPartContainer({
   const float = author.type === "user" ? "right" : "left";
 
   const paddingLeft = {
-    xs: "20px",
-    md: "48px",
+    xs: "10px",
+    md: "28px",
   };
 
   return (
@@ -132,8 +132,8 @@ function ConversationPartContainer({
               borderRadius: 5,
               p: 3,
               maxWidth: {
-                xs: "90%",
-                md: "75%",
+                xs: "95%",
+                md: "90%",
               },
               ...sxForAuthorType(author.type),
             }}

@@ -32,6 +32,7 @@ function createSystemInstruction({
   user,
   orgProducts,
 }: {
+  // TODO: we need to create a separate module to handle system instructions and so on
   agent: OrganizationsCol.AgentsSubCol.Doc;
   user: {
     name: string;
@@ -256,6 +257,10 @@ export default function ConversationDialog({
             }}
             ref={partsListRef}
           >
+            <Alert severity="info" sx={{ mt: 2 }}>
+              Conversas teste com agentes não são salvas no banco de dados.
+            </Alert>
+
             {sendError && (
               <Alert severity="error" sx={{ mt: 2 }}>
                 <AlertTitle>Erro</AlertTitle>

@@ -10,8 +10,6 @@ import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
 import { TransitionProps } from "@mui/material/transitions";
 import Plans from "./Plans";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import useTheme from "@mui/material/styles/useTheme";
 
 interface UpgradeDialogProps {
   open: boolean;
@@ -22,11 +20,10 @@ export default function UpgradeDialog({
   open,
   closeDialog,
 }: UpgradeDialogProps) {
-  const fullScreen = useFullScreen();
   return (
     <Dialog
       open={open}
-      fullScreen={fullScreen}
+      fullScreen
       TransitionComponent={Transition}
       onClose={close}
     >
@@ -55,11 +52,5 @@ const Transition = React.forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction="right" ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
-
-function useFullScreen() {
-  const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down("xs"));
-  return isXs;
-}

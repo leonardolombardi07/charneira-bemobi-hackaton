@@ -20,7 +20,9 @@ export default function Page({ params }: PageProps) {
   return (
     <Container
       sx={{
-        pt: 3,
+        py: 3,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Box

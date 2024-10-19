@@ -57,11 +57,12 @@ export default function DataGrid({ orgId }: DataGridProps) {
           <Button
             key={0}
             variant="text"
-            color="secondary"
+            size="large"
+            color="primary"
             startIcon={<ChatIcon />}
             onClick={() => onTestChat(params.row)}
           >
-            Testar Agente
+            Testar
           </Button>,
         ];
       },

@@ -33,21 +33,11 @@ const PATHNAME = {
 interface DrawerProps {
   mobileOpen: boolean;
   setMobileOpen: (mobileOpen: boolean) => void;
-  setIsClosing: (isClosing: boolean) => void;
 }
 
-export default function Drawer({
-  mobileOpen,
-  setMobileOpen,
-  setIsClosing,
-}: DrawerProps) {
-  const handleDrawerClose = () => {
-    setIsClosing(true);
+export default function Drawer({ mobileOpen, setMobileOpen }: DrawerProps) {
+  const closeDrawer = () => {
     setMobileOpen(false);
-  };
-
-  const handleDrawerTransitionEnd = () => {
-    setIsClosing(false);
   };
 
   return (
@@ -58,8 +48,7 @@ export default function Drawer({
       <MUIDrawer
         variant="temporary"
         open={mobileOpen}
-        onTransitionEnd={handleDrawerTransitionEnd}
-        onClose={handleDrawerClose}
+        onClose={closeDrawer}
         ModalProps={{
           keepMounted: true, // Better open performance on mobile.
         }}
@@ -71,7 +60,7 @@ export default function Drawer({
           },
         }}
       >
-        <DrawerContent closeDrawer={handleDrawerClose} />
+        <DrawerContent closeDrawer={closeDrawer} />
       </MUIDrawer>
 
       <MUIDrawer
@@ -85,7 +74,7 @@ export default function Drawer({
         }}
         open
       >
-        <DrawerContent closeDrawer={handleDrawerClose} />
+        <DrawerContent closeDrawer={closeDrawer} />
       </MUIDrawer>
     </Box>
   );
@@ -109,7 +98,10 @@ function DrawerContent({ closeDrawer }: { closeDrawer: () => void }) {
       <Toolbar
         sx={{
           display: "flex",
-          alignItems: "center",
+          alignItems: {
+            xs: "left",
+            sm: "center",
+          },
           rowGap: 2,
           py: 0.5,
         }}
@@ -118,7 +110,7 @@ function DrawerContent({ closeDrawer }: { closeDrawer: () => void }) {
           color="inherit"
           edge="start"
           onClick={closeDrawer}
-          sx={{ display: { sm: "none" }, mr: 2 }}
+          sx={{ display: { sm: "none" } }}
         >
           <CloseIcon />
         </IconButton>

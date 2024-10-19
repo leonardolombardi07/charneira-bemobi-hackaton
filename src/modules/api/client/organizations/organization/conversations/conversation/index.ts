@@ -33,10 +33,10 @@ type UpdateConversationData =
     orgId: string;
   };
 
-function updateConversation(id: string, data: UpdateConversationData) {
+async function updateConversation(id: string, data: UpdateConversationData) {
   const { conversationsCol } = getOrganizationSubcollections(data.orgId);
   const cDoc = doc(conversationsCol, id);
-  setDoc(cDoc, { updatedAt: Date.now(), ...data }, { merge: true });
+  return setDoc(cDoc, { updatedAt: Date.now(), ...data }, { merge: true });
 }
 
 export { useConversation, createConversation, updateConversation };

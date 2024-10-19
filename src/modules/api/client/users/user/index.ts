@@ -9,11 +9,9 @@ const { usersCol } = getCollections();
 
 function useFirestoreUser() {
   const userId = auth.currentUser?.uid;
-  if (!userId) {
-    throw new Error("Not found");
-  }
-
-  const [item, isLoading, error] = useDocumentData(doc(usersCol, userId));
+  const [item, isLoading, error] = useDocumentData(
+    doc(usersCol, userId || "forceError")
+  );
   return [item, isLoading, error] as const;
 }
 

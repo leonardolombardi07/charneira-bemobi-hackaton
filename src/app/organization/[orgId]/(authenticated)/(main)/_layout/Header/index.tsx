@@ -63,12 +63,10 @@ export default function Header({ sx, onDrawerToggle }: HeaderProps) {
           <Typography
             variant="h6"
             component="h2"
-            // color={(t) => {
-            //   const isDark = t.palette.mode === "dark";
-            //   return isDark ? "secondary.main" : "inherit";
-            // }}
             sx={{
               ml: "3px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
             }}
           >
             {organization?.name}

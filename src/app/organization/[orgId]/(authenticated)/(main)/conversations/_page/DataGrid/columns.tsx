@@ -1,8 +1,9 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { DataItem } from "./types";
+import { Row } from "./types";
+import Chip from "@mui/material/Chip";
 
-type ColumnWithTypedField = GridColDef<DataItem> & {
-  field: keyof DataItem;
+type ColumnWithTypedField = GridColDef<Row> & {
+  field: keyof Row;
 };
 
 export const COLUMNS: ColumnWithTypedField[] = [
@@ -26,14 +27,34 @@ export const COLUMNS: ColumnWithTypedField[] = [
   },
 
   {
-    field: "members",
-    headerName: "Membros",
+    field: "agents",
+    headerName: "Agentes",
     minWidth: 140,
-    valueGetter: (params) => {
-      // TODO: we could do better here
-      return Object.values(params.row.members)
-        .map((member) => member.name)
-        .join(", ");
+    renderCell: (params) => {
+      return params.row.agents.map((agent) => (
+        <Chip
+          key={agent.id}
+          variant="outlined"
+          color="primary"
+          label={agent.name}
+        />
+      ));
+    },
+  },
+
+  {
+    field: "customers",
+    headerName: "Clientes",
+    minWidth: 140,
+    renderCell: (params) => {
+      return params.row.customers.map((customer) => (
+        <Chip
+          variant="outlined"
+          color="secondary"
+          key={customer.id}
+          label={customer.name}
+        />
+      ));
     },
   },
 ];

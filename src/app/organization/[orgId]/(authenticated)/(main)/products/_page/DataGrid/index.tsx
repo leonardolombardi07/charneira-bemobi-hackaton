@@ -115,7 +115,7 @@ function useDelete({ orgId, rows }: { orgId: string; rows: Row[] }) {
       return alert("Ooops, algo deu errado.");
     }
 
-    deleteProduct(orgId, selectedRowToDelete.id);
+    deleteProduct(selectedRowToDelete.id, orgId);
     closeDeleteDialog();
   }
 

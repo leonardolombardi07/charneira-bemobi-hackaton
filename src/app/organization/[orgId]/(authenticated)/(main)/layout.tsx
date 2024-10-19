@@ -8,14 +8,10 @@ import { DRAWER_WIDTH } from "./_layout/constants";
 import Drawer from "./_layout/Drawer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isMobileDrawingClosing, setIsMobileDrawingClosing] =
-    React.useState(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = React.useState(false);
 
   function toggleDrawer() {
-    if (!isMobileDrawingClosing) {
-      setIsMobileDrawerOpen(!isMobileDrawerOpen);
-    }
+    setIsMobileDrawerOpen(!isMobileDrawerOpen);
   }
 
   return (
@@ -29,7 +25,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <Drawer
         mobileOpen={isMobileDrawerOpen}
-        setIsClosing={setIsMobileDrawingClosing}
         setMobileOpen={setIsMobileDrawerOpen}
       />
 
@@ -38,6 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         sx={{
           flexGrow: 1,
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+          overflow: "auto",
         }}
       >
         <Toolbar />

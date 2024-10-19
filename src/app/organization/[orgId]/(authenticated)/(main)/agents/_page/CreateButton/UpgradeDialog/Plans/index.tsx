@@ -5,14 +5,13 @@ import Card from "@mui/material/Card";
 import Chip from "@mui/material/Chip";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+import { APP_NAME } from "@/app/organization/constants";
 
 interface Tier {
   title: string;
@@ -34,7 +33,7 @@ const TIERS: Tier[] = [
       "1000 conversas por mês",
       "Suporte por email",
     ],
-    buttonText: null,
+    buttonText: "Atual",
     buttonVariant: "outlined",
     buttonColor: "primary",
   },
@@ -53,7 +52,7 @@ const TIERS: Tier[] = [
     ],
     buttonText: "Contratar Agora",
     buttonVariant: "contained",
-    buttonColor: "secondary",
+    buttonColor: "primary",
   },
   {
     title: "Corporativo",
@@ -76,44 +75,37 @@ interface PlansProps {
 
 export default function Plans({ closeDialog }: PlansProps) {
   return (
-    <Container
+    <Box
       id="Plans"
       sx={{
-        pt: { xs: 4, sm: 12 },
-        pb: { xs: 8, sm: 16 },
         position: "relative",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: { xs: 3, sm: 6 },
+        py: { xs: 3, sm: 6 },
       }}
     >
-      <Alert severity="info">
-        <AlertTitle>Oooops!</AlertTitle>
-        Você atingiu o limite de agentes do plano atual. Para adicionar mais
-        agentes, você precisa fazer um upgrade de plano.
-      </Alert>
-
       <Box
         sx={{
           width: { sm: "100%", md: "60%" },
           textAlign: { sm: "left", md: "center" },
         }}
       >
-        <Typography
-          component="h2"
-          variant="h2"
-          gutterBottom
-          sx={{ color: "text.primary" }}
-        >
-          Planos de Assinatura
+        <Typography component="h2" variant="h3" sx={{ color: "text.primary" }}>
+          Planos {APP_NAME}
         </Typography>
 
-        <Typography variant="body1" sx={{ color: "text.secondary" }}>
-          Escolha um plano que se encaixe melhor nas necessidades da sua
-          empresa.
+        <Typography
+          component="p"
+          variant="subtitle1"
+          sx={{ color: "text.secondary" }}
+        >
+          Você atingiu o limite de agentes do plano atual. Para adicionar mais
+          agentes, faça o upgrade para um dos planos abaixo.
         </Typography>
       </Box>
+
       <Grid
         container
         spacing={3}
@@ -122,7 +114,7 @@ export default function Plans({ closeDialog }: PlansProps) {
         {TIERS.map((tier) => (
           // @ts-ignore
           <Grid
-            size={{ xs: 12, sm: tier.title === "Enterprise" ? 12 : 6, md: 4 }}
+            size={{ xs: 12, sm: tier.title === "Corporativo" ? 12 : 6, md: 4 }}
             key={tier.title}
           >
             <Card
@@ -133,18 +125,12 @@ export default function Plans({ closeDialog }: PlansProps) {
                   flexDirection: "column",
                   gap: 4,
                 },
-                tier.title === "Professional" &&
+                tier.title === "Profissional" &&
                   ((theme) => ({
                     border: "none",
                     background:
                       "radial-gradient(circle at 50% 0%, hsl(220, 20%, 35%), hsl(220, 30%, 6%))",
                     boxShadow: `0 8px 12px hsla(220, 20%, 42%, 0.2)`,
-                    // @ts-ignore
-                    ...theme.applyStyles("dark", {
-                      background:
-                        "radial-gradient(circle at 50% 0%, hsl(220, 20%, 20%), hsl(220, 30%, 16%))",
-                      boxShadow: `0 8px 12px hsla(0, 0%, 0%, 0.8)`,
-                    }),
                   })),
               ]}
             >
@@ -158,7 +144,7 @@ export default function Plans({ closeDialog }: PlansProps) {
                       alignItems: "center",
                       gap: 2,
                     },
-                    tier.title === "Professional"
+                    tier.title === "Profissional"
                       ? { color: "grey.100" }
                       : { color: "" },
                   ]}
@@ -166,7 +152,7 @@ export default function Plans({ closeDialog }: PlansProps) {
                   <Typography component="h3" variant="h6">
                     {tier.title}
                   </Typography>
-                  {tier.title === "Professional" && (
+                  {tier.title === "Profissional" && (
                     <Chip icon={<AutoAwesomeIcon />} label={tier.subheader} />
                   )}
                 </Box>
@@ -176,7 +162,7 @@ export default function Plans({ closeDialog }: PlansProps) {
                       display: "flex",
                       alignItems: "baseline",
                     },
-                    tier.title === "Professional"
+                    tier.title === "Profissional"
                       ? { color: "grey.50" }
                       : { color: null },
                   ]}
@@ -185,7 +171,7 @@ export default function Plans({ closeDialog }: PlansProps) {
                     ${tier.price}
                   </Typography>
                   <Typography component="h3" variant="h6">
-                    &nbsp; per month
+                    &nbsp; por mês
                   </Typography>
                 </Box>
                 <Divider sx={{ my: 2, opacity: 0.8, borderColor: "divider" }} />
@@ -204,7 +190,7 @@ export default function Plans({ closeDialog }: PlansProps) {
                         {
                           width: 20,
                         },
-                        tier.title === "Professional"
+                        tier.title === "Profissional"
                           ? { color: "primary.light" }
                           : { color: "primary.main" },
                       ]}
@@ -213,7 +199,7 @@ export default function Plans({ closeDialog }: PlansProps) {
                       variant="subtitle2"
                       component={"span"}
                       sx={[
-                        tier.title === "Professional"
+                        tier.title === "Profissional"
                           ? { color: "grey.50" }
                           : { color: null },
                       ]}
@@ -226,6 +212,7 @@ export default function Plans({ closeDialog }: PlansProps) {
               <CardActions>
                 {tier.buttonText && (
                   <Button
+                    disabled={tier.buttonText === "Atual"}
                     fullWidth
                     variant={tier.buttonVariant as "outlined" | "contained"}
                     color={tier.buttonColor as "primary" | "secondary"}
@@ -239,6 +226,6 @@ export default function Plans({ closeDialog }: PlansProps) {
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </Box>
   );
 }

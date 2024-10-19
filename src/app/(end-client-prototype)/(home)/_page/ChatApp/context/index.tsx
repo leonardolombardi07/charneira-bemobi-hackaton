@@ -161,6 +161,33 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
         });
         setTemporaryParts((prev) => [...prev, aiPart]);
 
+        const isFirstPart = parts.length === 0;
+
+        const baseConversationData: Partial<OrganizationsCol.ConversationsSubCol.Doc> & {
+          orgId: string;
+        } = {
+          id: conversationId,
+          orgId,
+          members: {
+            [user.id]: {
+              id: user.id,
+              type: "user",
+              name: user.name,
+              photoURL: user.photoURL,
+            },
+            [agent.id]: {
+              id: agent.id,
+              type: "bot",
+              name: agent.name,
+              photoURL: "",
+            },
+          },
+        };
+
+        if (isFirstPart) {
+          await updateConversation(conversationId, baseConversationData);
+        }
+
         const agentAsModel = getAgentAsModel({
           systemInstruction: getSystemInstruction({
             organization,
@@ -193,8 +220,12 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           userPart,
           aiPart,
         ]);
-        setSendLoadingStatus("idle");
-        // We don't need the user to know we are doing background work after here
+
+        if (!isFirstPart) {
+          // We don't need the user to know we are doing background work after here
+          // If it is the first part, its important to update the conversation
+          setSendLoadingStatus("idle");
+        }
 
         const ASK_FOR_TITLE_PROMPT = `Baseado nas mensagens anteriores dessa conversa, responda com APENAS UM bom título com no máximo 10 palavras. Mas realmente tente dar um título - como, se for uma conversa vaga ou estranha, tente dar um título que capture isso. Não responda com coisas como "Por favor, me forneça mais contexto"`;
 
@@ -207,7 +238,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
           }),
           safetySettings: DEFAULT_SAFE_SETTINGS,
           history: [
-            ...partsToHistory(parts),
+            ...partsToHistory([...parts, userPart, aiPart]),
             {
               role: "model",
               parts: [{ text: ASK_FOR_TITLE_PROMPT }],
@@ -218,7 +249,7 @@ function ChatAppProvider({ children, context, app_id }: ChatAppProviderProps) {
         const titleResult = await updatedAgentAsModel.sendMessage("");
 
         updateConversation(conversationId, {
-          orgId,
+          ...baseConversationData,
           title: titleResult.response.text(),
           lastPart: aiPart,
         });

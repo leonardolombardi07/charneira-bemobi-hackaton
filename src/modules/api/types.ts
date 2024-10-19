@@ -63,8 +63,11 @@ export namespace OrganizationsCol {
   }
 
   export namespace ConversationsSubCol {
+    type ConversationPartId = string;
+
     export interface ConversationMember {
       id: UserId;
+      type: "user" | "bot";
       name: string;
       photoURL: string;
     }
@@ -75,19 +78,14 @@ export namespace OrganizationsCol {
       title: string;
       createdAt: Timestamp;
       updatedAt: Timestamp;
-      members: {
+      members?: {
         [userId: UserId]: ConversationMember;
       };
       lastPart: PartsSubCol.Doc | null;
     }
 
     export namespace PartsSubCol {
-      export interface ConversationPartAuthor {
-        id: UserId;
-        type: "user" | "bot";
-        name: string;
-        photoURL: string;
-      }
+      export type ConversationPartAuthor = ConversationMember;
 
       export interface ConversationPartReplyOption {
         id: string;

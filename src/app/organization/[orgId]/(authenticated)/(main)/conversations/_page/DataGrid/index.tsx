@@ -8,6 +8,7 @@ import { overlaySx } from "@/components/datagrid/overlay";
 import { COLUMNS } from "./columns";
 import { useOrgConversations } from "@/modules/api/client";
 import EmptyConversationsIcon from "@mui/icons-material/Chat";
+import { Row } from "./types";
 
 interface DataGridProps {
   orgId: string;
@@ -15,9 +16,20 @@ interface DataGridProps {
 
 export default function DataGrid({ orgId }: DataGridProps) {
   const [rows = [], isLoading, error] = useOrgConversations(orgId);
+
+  const transformedRows: Row[] = rows.map((row) => ({
+    ...row,
+    agents: Object.values(row.members || {}).filter(
+      (member) => member.type === "bot"
+    ),
+    customers: Object.values(row.members || {}).filter(
+      (member) => member.type === "user"
+    ),
+  }));
+
   return (
     <MUIDataGrid
-      rows={error ? [] : rows}
+      rows={error ? [] : transformedRows}
       columns={COLUMNS}
       loading={isLoading}
       autoHeight

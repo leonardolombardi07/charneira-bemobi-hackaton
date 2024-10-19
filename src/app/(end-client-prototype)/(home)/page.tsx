@@ -24,6 +24,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 
 export default function Page() {
   const [user, isLoadingUser, loadingUserError] = useFirestoreUser();
+
   const [lastCreatedOrg, isLoadingLastCreatedOrg, loadingLastCreatedOrgError] =
     useLastCreatedOrganization();
 
@@ -31,7 +32,7 @@ export default function Page() {
     return <PageLoader />;
   }
 
-  if (loadingLastCreatedOrgError || !lastCreatedOrg || loadingUserError) {
+  if (loadingLastCreatedOrgError || !lastCreatedOrg) {
     return <ErrorPage />;
   }
 
