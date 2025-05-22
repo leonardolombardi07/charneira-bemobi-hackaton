@@ -41,7 +41,7 @@ function useSignUpWithForm() {
     setIsLoading(true);
     setSubmitError(null);
     try {
-      openDisabledSignUpDialog();
+      // openDisabledSignUpDialog();
 
       /* ---------- TEMPORARLY DISABLED -------- */
       /* ENABLED AGAIN AT 22/05/2025 TO SHOW TO FRIENDS */
