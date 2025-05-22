@@ -44,16 +44,17 @@ function useSignUpWithForm() {
       openDisabledSignUpDialog();
 
       /* ---------- TEMPORARLY DISABLED -------- */
+      /* ENABLED AGAIN AT 22/05/2025 TO SHOW TO FRIENDS */
       // We need to create the organization first, so we can sign up the user
       // it must be sequential, otherwise firebase can create the user but the organization creation can fail
-      // const { id: orgId } = await createOrganization({
-      //   name: orgName,
-      //   createdAt: Date.now(),
-      //   updatedAt: Date.now(),
-      //   photoURL: "",
-      // });
-      // await signUpOrgMember("email/password", orgId, { email, password, name });
-      // goHome(orgId);
+      const { id: orgId } = await createOrganization({
+        name: orgName,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        photoURL: "",
+      });
+      await signUpOrgMember("email/password", orgId, { email, password, name });
+      goHome(orgId);
     } catch (error: any) {
       console.error(error);
       console.error(error.code);
